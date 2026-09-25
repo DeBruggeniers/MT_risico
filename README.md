@@ -21,3 +21,7 @@ Deze map kan direct op GitHub Pages worden gepubliceerd.
 - `Ongedaan maken` herstelt de laatste actie binnen de huidige browsersessie.
 
 Dit is bewust een eerste functionele versie. Visuele verfijning en uitgebreidere spelstatuslogica kunnen hierna worden toegevoegd.
+
+
+## QR-codes voor MT-teams
+In het docentdashboard staat nu de knop **QR-codes tonen**. Deze genereert vier vaste QR-codes voor MT 1 t/m MT 4. De codes verwijzen naar `team.html?mt=1` t/m `team.html?mt=4` op dezelfde GitHub Pages-site. Via **Print QR-kaarten** kunnen de vier codes worden afgedrukt voor gebruik op de tafels.
