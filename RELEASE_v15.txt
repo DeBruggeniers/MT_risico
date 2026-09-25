@@ -1,0 +1,11 @@
+MT Risicosimulatie v15 - startscherm
+
+Nieuw:
+- Startscherm vóór de eerste risicokaart.
+- Vier MT-teams met live QR-codes.
+- Deelnemers kunnen vooraf verbinden zonder R1.1 te zien.
+- Telefoon toont vóór de start een wachtstatus en de beginscores.
+- START SIMULATIE publiceert pas daarna R1.1.
+- Reset spel brengt de simulatie terug naar het startscherm.
+- Geen tekst 'Directie Infrastructuur' en geen extra tekst onder de startknop.
+- Bestaande Supabase-, telefoon-, score-, route- en QR-functionaliteit behouden.
