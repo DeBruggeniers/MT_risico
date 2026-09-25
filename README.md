@@ -1,27 +1,13 @@
-# MT Risicosimulatie – eerste werkende versie
+# MT Risicosimulatie v9
 
-Deze map kan direct op GitHub Pages worden gepubliceerd.
+Complete vervangingsset voor de GitHub Pages repository `DeBruggeniers/MT_risico`.
 
-## Gebruik
-1. Upload alle bestanden en mappen naar een GitHub repository.
-2. Zet GitHub Pages aan voor de `main` branch / root.
-3. Open de gepubliceerde URL.
-4. De spelstatus wordt lokaal in de browser opgeslagen via `localStorage`.
+Upload de **inhoud** van deze ZIP naar de hoofdmap van de repository en kies bij dubbele bestandsnamen voor vervangen/overschrijven.
 
-## Database
-`data/game-data.json` is gegenereerd uit `Database_MT_risicosimulatie_v2.xlsx` en bevat scenario's, besluiteffecten, routekaart, condities en configuratie.
+Na publicatie:
+1. Open de docentpagina.
+2. Klik eenmaal op **Reset spel**.
+3. Test R1.1 met een keuze en ga naar de volgende ronde.
+4. Controleer een MT-teampagina via de QR-code.
 
-## Werking
-- Vier MT's worden naast elkaar gevolgd.
-- Per MT wordt A/B/C/D door de docent ingevoerd.
-- Scores worden automatisch aangepast.
-- Keuze C voegt het risico toe aan de lijst actieve MT-risico's.
-- Na alle vier keuzes activeert `Volgende ronde` het vervolgscenario volgens de routekaart.
-- Na R1.4 start automatisch risicolijn 2, daarna 3 en 4.
-- `Ongedaan maken` herstelt de laatste actie binnen de huidige browsersessie.
-
-Dit is bewust een eerste functionele versie. Visuele verfijning en uitgebreidere spelstatuslogica kunnen hierna worden toegevoegd.
-
-
-## QR-codes voor MT-teams
-In het docentdashboard staat nu de knop **QR-codes tonen**. Deze genereert vier vaste QR-codes voor MT 1 t/m MT 4. De codes verwijzen naar `team.html?mt=1` t/m `team.html?mt=4` op dezelfde GitHub Pages-site. Via **Print QR-kaarten** kunnen de vier codes worden afgedrukt voor gebruik op de tafels.
+De Excel is de inhoudelijke brondatabase. `game-data.json` is de database die de webapp daadwerkelijk leest.
