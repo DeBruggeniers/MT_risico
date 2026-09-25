@@ -1,0 +1,22 @@
+MT Risicosimulatie v14
+
+Gebaseerd op:
+Database_MT_risicosimulatie_v11_scorekalibratie_100MT.xlsx
+
+Wijzigingen:
+- Startscore vier pijlers: 60.
+- Nieuwe gebalanceerde governanceverdeling:
+  A: 4/16 (25%)
+  B: 3/16 (18,75%)
+  C: 6/16 (37,5%)
+  D: 3/16 (18,75%)
+- Optimale route kan exact 100/100/100/100 bereiken.
+- Teksten en gevolgen voor R1.2, R2.2, R2.4, R3.3, R4.3 en R4.4 aangescherpt.
+- Oplopende micromanagementcondities vanaf herhaald onterecht overnemen.
+- Analyse-overdaad en premature bestuurlijke escalatie blijven apart meewegen.
+- R4.3 blijft bewust een inhoudelijk dilemma: C lichte voorkeur, B goed verdedigbaar.
+- Bestaande Supabase-, QR- en telefoonfunctionaliteit uit de vorige complete set behouden.
+
+Upload:
+Pak deze ZIP uit en upload de INHOUD in de root van de bestaande GitHub-repository.
+Laat GitHub bestaande bestanden vervangen.
