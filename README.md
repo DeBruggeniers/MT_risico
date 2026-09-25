@@ -1,13 +1,12 @@
-# MT Risicosimulatie v9
+# MT Risicosimulatie v10
 
-Complete vervangingsset voor de GitHub Pages repository `DeBruggeniers/MT_risico`.
+Complete GitHub Pages-set voor de MT-risicosimulatie Noordzeeland.
 
-Upload de **inhoud** van deze ZIP naar de hoofdmap van de repository en kies bij dubbele bestandsnamen voor vervangen/overschrijven.
+Wijzigingen v10 telefoonweergave:
+- risico-eigenaar niet meer zichtbaar;
+- risiconiveau Laag/Middel/Hoog per bedrijfswaarde zichtbaar;
+- actieve condities/gebeurtenissen zichtbaar;
+- actieve MT-risico's onderaan zichtbaar;
+- live synchronisatie blijft via Supabase lopen.
 
-Na publicatie:
-1. Open de docentpagina.
-2. Klik eenmaal op **Reset spel**.
-3. Test R1.1 met een keuze en ga naar de volgende ronde.
-4. Controleer een MT-teampagina via de QR-code.
-
-De Excel is de inhoudelijke brondatabase. `game-data.json` is de database die de webapp daadwerkelijk leest.
+Upload alle bestanden uit deze map naar de root van de bestaande GitHub-repository en vervang de bestaande bestanden.
