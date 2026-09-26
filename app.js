@@ -1,9 +1,9 @@
-const STORE='mt-risk-sim-v21';let DATA,state,undoStack=[];let sb=null;
+const STORE='mt-risk-sim-v22';let DATA,state,undoStack=[];let sb=null;
 if(window.supabase&&window.SUPABASE_CONFIG){sb=window.supabase.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.publishableKey);}
 const labels={A:'Terugleggen bij de afzender',B:'Aanvullende informatie opvragen',C:'Opnemen als MT-risico',D:'Escaleren naar bestuur'};
 const scoreNames={grip:'Grip op risico\'s',eig:'Eigenaarschap & vertrouwen',uit:'Uitvoerbaarheid',strat:'Strategische slagkracht'};
 const riskFields=[['Bereikbaarheid','Risico_Bereikbaarheid'],['Leefbaarheid','Risico_Leefbaarheid'],['Veiligheid','Risico_Veiligheid'],['Imago','Risico_Imago'],['Kosten','Risico_Kosten']];
-async function boot(){DATA=await fetch('game-data.json?v=21').then(r=>r.json());state=load()||fresh();render();await syncAllToSupabase();}
+async function boot(){DATA=await fetch('game-data.json?v=22').then(r=>r.json());state=load()||fresh();render();await syncAllToSupabase();}
 function fresh(){let starts={grip:+DATA.config["Startscore Grip op risico's"]||70,eig:+DATA.config['Startscore Eigenaarschap & vertrouwen']||70,uit:+DATA.config['Startscore Uitvoerbaarheid']||70,strat:+DATA.config['Startscore Strategische slagkracht']||70};return{started:false,round:1,mts:[1,2,3,4].map(i=>({id:i,name:`MT ${i}`,scores:{...starts},budget:+DATA.config['Startbudget kEUR']||10000,cap:+DATA.config['Startcapaciteit %']||100,current:'R1.1_START',line:1,step:1,managed:[],history:[],counters:{MICRO:0,ANALYSE:0,ESCAL:0,PREM_ESCAL:0,AFHOUD:0,GOOD_GOV:0},triggered:[],events:[],chosen:false}))};}
 function load(){try{return JSON.parse(localStorage.getItem(STORE))}catch(e){return null}}function save(){localStorage.setItem(STORE,JSON.stringify(state))}function clamp(x){return Math.max(0,Math.min(100,x))}function scen(id){return DATA.scenarios.find(x=>x.Scenario_ID===id)}function effect(risk,ch){return DATA.effects.find(x=>x.Risico_ID===risk&&x.Keuze===ch)}function route(risk,ch){return DATA.routes.find(x=>x.Huidig_risico===risk&&x.Keuze===ch)}
 function riskProfile(s){if(!s)return'';return `<div class="risk-profile">${riskFields.map(([label,key])=>`<div class="risk-pill risk-${String(s[key]||'').toLowerCase()}"><span>${label}</span><strong>${esc(s[key]||'-')}</strong></div>`).join('')}</div>`}
@@ -20,11 +20,12 @@ function renderRoundRiskBar(){
   let body='';
   if(sameRiskSummary(items)){
     const x=items[0];
-    body=`<div class="round-risk-common"><div class="round-risk-title">${esc(x.risk)} · ${esc(x.title)}</div><div class="round-risk-sender"><strong>Afzender</strong>${esc(x.sender)}</div>${compactRiskProfile(x.s)}</div>`;
+    body=`<div class="round-risk-common"><div class="round-risk-title">${esc(x.risk)} · ${esc(x.title)}</div><div class="round-risk-sender"><strong>Afzender</strong>${esc(x.sender)}</div><div class="risk-profile-wrap"><span class="risk-profile-label">Risicoprofiel</span>${compactRiskProfile(x.s)}</div></div>`;
   }else{
     body=`<div class="round-risk-variants">${items.map(x=>`<div class="round-variant"><h4>MT ${x.mt}</h4><div class="variant-title">${esc(x.risk)} · ${esc(x.title)}</div><div class="variant-sender">Afzender: ${esc(x.sender)}</div>${compactRiskProfile(x.s)}</div>`).join('')}</div>`;
   }
-  el.innerHTML=`<div class="round-risk-head"><strong>Risico deze ronde</strong><span>Volledige risicobeschrijving staat op de telefoon van ieder MT</span></div><div class="round-risk-content">${body}</div>`;
+  const chosenCount=state.mts.filter(m=>m.chosen).length;
+  el.innerHTML=`<div class="round-risk-head"><strong>Risico deze ronde</strong><div class="round-head-right"><span>Volledige risicobeschrijving staat op de telefoon van ieder MT</span><b class="round-progress ${chosenCount===4?'complete':''}">${chosenCount}/4 MT's hebben gekozen${chosenCount===4?' ✓':''}</b></div></div><div class="round-risk-content">${body}</div>`;
 }
 
 function choiceBar(ch,count,total){
@@ -49,14 +50,15 @@ function render(){
     let card=document.createElement('section');card.className=`mt-card mt-${mt.id}`;
     card.innerHTML=`<div class="mt-head"><h2>${mt.name}</h2><div class="head-actions"><a class="team-link" href="team.html?mt=${mt.id}" target="_blank">QR / telefoon</a><span class="eyebrow">Ronde ${state.round}</span></div></div>
     <div class="mt-top">
-      <div class="scores"><h4>Vier scorepijlers</h4><div class="score-grid">${score('grip',mt.scores.grip)}${score('eig',mt.scores.eig)}${score('uit',mt.scores.uit)}${score('strat',mt.scores.strat)}</div></div>
+      <div class="scores"><h4>Vier scorepijlers</h4><div class="score-grid">${scoreWithDelta('grip',mt.scores.grip,mt)}${scoreWithDelta('eig',mt.scores.eig,mt)}${scoreWithDelta('uit',mt.scores.uit,mt)}${scoreWithDelta('strat',mt.scores.strat,mt)}</div></div>
       <div class="choice-history"><h4>Keuzes deze sessie</h4><div class="choice-bars">${['A','B','C','D'].map(ch=>choiceBar(ch,counts[ch],mt.history.length)).join('')}</div></div>
     </div>
-    <div class="conditions-panel ${(Array.isArray(mt.events)&&mt.events.filter(Boolean).length)?'has-event':''}"><h4>Condities / gebeurtenissen</h4><div class="conditions-content">${conditionsHtml(mt)}</div></div>
-    <div class="managed managed-wide"><h4>Actieve MT-risico's (keuze C)</h4>${mt.managed.length?`<ul class="managed-grid">${mt.managed.map(x=>`<li><strong>${esc(x.id)}</strong> ${esc(x.title)}</li>`).join('')}</ul>`:'<div class="empty">Nog geen risico’s door het MT opgenomen.</div>'}</div>
+    <div class="conditions-panel ${(Array.isArray(mt.events)&&mt.events.filter(Boolean).length)?'has-event':'is-empty'}"><h4>Condities / gebeurtenissen</h4><div class="conditions-content">${conditionsHtml(mt)}</div></div>
+    <div class="managed managed-wide ${mt.managed.length?'':'is-empty'}"><h4>Actieve MT-risico's (keuze C)</h4>${mt.managed.length?`<ul class="managed-grid">${mt.managed.map(x=>`<li><strong>${esc(x.id)}</strong> ${esc(x.title)}</li>`).join('')}</ul>`:'<div class="empty">Nog geen risico’s door het MT opgenomen.</div>'}</div>
     <div class="choice"><div class="buttons">${['A','B','C','D'].map(ch=>`<button class="choice-btn ${chosen===ch?'selected':''}" ${mt.chosen?'disabled':''} onclick="preview(${mt.id},'${ch}')"><strong>${ch}</strong><br>${labels[ch]}</button>`).join('')}</div><div class="status">${mt.chosen?`Keuze ${chosen} voor deze ronde verwerkt.`:'Nog geen keuze ingevoerd.'}</div></div>`;
     g.appendChild(card)
   });
+  const nextBtn=document.getElementById('nextRound');if(nextBtn){const ready=state.started&&state.mts.every(m=>m.chosen);nextBtn.disabled=!ready;nextBtn.classList.toggle('ready',ready)}
   save();publishPublicState()
 }
 async function syncMtToSupabase(mt){if(!sb)return;let s=state.started?(scen(mt.current)||DATA.scenarios.find(x=>x.Risico_ID===`R${mt.line}.${mt.step}`)):null;let row={ronde:state.started?state.round:0,scenario_id:state.started?(mt.current||null):null,risico_code:state.started?(s?.Risico_ID||'Einde'):'',risico_titel:state.started?(s?.Titel||'Risicolijn afgerond'):'Wachten op de start van de simulatie',risico_beschrijving:state.started?riskText(s):JSON.stringify({context:'Jullie zijn verbonden. De eerste risicokaart verschijnt zodra de docent de simulatie start.',event:'',risks:{}}),afzender:state.started?(s?.Afzender||'-'):'-',risico_eigenaar:JSON.stringify(state.started?(mt.events||[]):[]),score_grip:mt.scores.grip,score_eigenaarschap:mt.scores.eig,score_uitvoerbaarheid:mt.scores.uit,score_strategisch:mt.scores.strat,actieve_mt_risicos:state.started?mt.managed:[],updated_at:new Date().toISOString()};let {error}=await sb.from('mt_state').update(row).eq('mt_id',mt.id);if(error)console.error('Supabase sync MT '+mt.id,error);}

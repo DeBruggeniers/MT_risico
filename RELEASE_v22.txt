@@ -1,0 +1,8 @@
+MT Risicosimulatie v22
+
+1. Gekozen A/B/C/D-knop wordt per MT duidelijk gemarkeerd in de eigen teamkleur.
+2. Centrale balk toont 0/4 t/m 4/4 gekozen; Volgende ronde is pas actief bij 4/4.
+3. Scores tonen waar de opgeslagen historie dit ondersteunt de laatste scoremutatie (+/-).
+4. Centrale bedrijfswaarden zijn expliciet gelabeld als Risicoprofiel.
+5. Lege Condities/gebeurtenissen en Actieve MT-risico's zijn compacter en groeien zodra inhoud ontstaat.
+6. Cache busting verhoogd naar v22.

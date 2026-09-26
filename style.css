@@ -331,3 +331,30 @@
 .mt-card .conditions-panel.has-event{
   background:#fff3e8;
 }
+
+/* v22 begeleidersverbeteringen */
+.round-head-right{display:flex;align-items:center;gap:14px}
+.round-progress{padding:4px 8px;border-radius:999px;background:#eef1f5;color:#667085;font-size:10px;white-space:nowrap}
+.round-progress.complete{background:#e7f5eb;color:#24733a}
+#nextRound:disabled{opacity:.45;cursor:not-allowed}
+#nextRound.ready{box-shadow:0 0 0 2px rgba(32,44,94,.12)}
+.risk-profile-wrap{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center}
+.risk-profile-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#667085}
+.score-delta{font-size:8px;font-weight:800;margin-left:3px}
+.score-delta.up{color:#27834a}.score-delta.down{color:#c44b38}
+
+/* Gekozen knop duidelijk in eigen MT-kleur */
+.mt-card.mt-1 .choice-btn.selected{background:#2f78b7!important;color:#fff!important;border-color:#2f78b7!important}
+.mt-card.mt-2 .choice-btn.selected{background:#3f8d52!important;color:#fff!important;border-color:#3f8d52!important}
+.mt-card.mt-3 .choice-btn.selected{background:#7a55a0!important;color:#fff!important;border-color:#7a55a0!important}
+.mt-card.mt-4 .choice-btn.selected{background:#d9782f!important;color:#fff!important;border-color:#d9782f!important}
+.mt-card .choice-btn.selected:disabled{opacity:1}
+
+/* Lege onderdelen compacter; groeien vanzelf zodra er inhoud is */
+.conditions-panel.is-empty{padding-top:6px;padding-bottom:6px}
+.conditions-panel.is-empty h4{margin-bottom:2px}
+.conditions-panel.is-empty .conditions-content{font-size:9.5px;color:#8a94a3}
+.managed-wide.is-empty{padding-top:6px;padding-bottom:5px;min-height:0}
+.managed-wide.is-empty h4{margin-bottom:2px}
+.managed-wide.is-empty .empty{font-size:9.5px;color:#8a94a3}
+@media(max-width:1100px){.round-head-right{align-items:flex-end;flex-direction:column;gap:4px}.risk-profile-wrap{grid-template-columns:1fr}}
