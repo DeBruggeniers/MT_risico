@@ -1,9 +1,9 @@
-const STORE='mt-risk-sim-v23-3';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
+const STORE='mt-risk-sim-v23-4';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
 if(window.supabase&&window.SUPABASE_CONFIG){sb=window.supabase.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.publishableKey);}
 const labels={A:'Terugleggen bij de afzender',B:'Aanvullende informatie opvragen',C:'Opnemen als MT-risico',D:'Escaleren naar bestuur'};
 const scoreNames={grip:'Grip op risico\'s',eig:'Eigenaarschap & vertrouwen',uit:'Uitvoerbaarheid',strat:'Strategische slagkracht'};
 const riskFields=[['Bereikbaarheid','Risico_Bereikbaarheid'],['Leefbaarheid','Risico_Leefbaarheid'],['Veiligheid','Risico_Veiligheid'],['Imago','Risico_Imago'],['Kosten','Risico_Kosten']];
-async function boot(){DATA=await fetch('game-data.json?v=23.3').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=23.3').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
+async function boot(){DATA=await fetch('game-data.json?v=23.4').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=23.4').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
 if(typeof state.finished!=='boolean')state.finished=false;
 if(!Array.isArray(state.mts)||state.mts.length!==4)state=fresh();
 for(const mt of state.mts){

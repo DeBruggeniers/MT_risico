@@ -1,0 +1,16 @@
+MT Risicosimulatie v23.4 - eindpagina leesbaarheid
+
+Aangepast:
+- Eindresultatenpagina gebruikt meer van de beschikbare schermhoogte en -breedte.
+- Tekst in de vier MT-vakken duidelijk groter.
+- Profielnaam groter.
+- Vier eindscores groter en prominenter.
+- Beschrijvende profieltekst vergroot naar 14-15 px.
+- Sterk- en aandachtspunt vergroot naar 13-14 px.
+- A/B/C/D-verdeling beter leesbaar.
+- Ruimere witruimte en grotere MT-kaarten.
+- Extra schaalvergroting op grote presentatieschermen.
+- Responsieve éénkolomsweergave blijft behouden op kleinere schermen.
+- Cache busting verhoogd naar v23.4.
+
+Alle logica, scoring en 25 gevalideerde MT-profielen uit v23.3 blijven ongewijzigd.
