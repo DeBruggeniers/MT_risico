@@ -1,0 +1,12 @@
+MT Risicosimulatie v18 - docentlayout
+
+Aanpassingen:
+- Condities/gebeurtenissen typografisch verkleind en uitgelijnd met de overige inhoud.
+- Condities staan in een eigen subtiele balk met gelijke linker/rechtermarge.
+- Bovenin ieder MT-vak:
+  links de vier scorepijlers;
+  rechts het staafdiagram met aantallen A/B/C/D gedurende de sessie.
+- Onder de bovenste rij staat de balk Condities / gebeurtenissen.
+- Daaronder staan de actieve MT-risico's (keuze C).
+- Keuzeknoppen blijven onderaan.
+- Overige functionaliteit uit v17 behouden.

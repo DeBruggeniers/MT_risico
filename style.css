@@ -60,3 +60,85 @@
 .bar-fill{height:100%;min-width:0;border-radius:999px;background:var(--navy);transition:width .25s ease}
 .bar-a{background:#667085}.bar-b{background:#5ab3b2}.bar-c{background:#202c5e}.bar-d{background:#ec7734}
 .choice-bar-row b{font-size:11px;color:var(--navy);text-align:right}
+
+/* v18 herindeling MT-vakken */
+.mt-top{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:18px;
+  padding:12px 16px 10px;
+  align-items:start;
+}
+.mt-top .scores,
+.mt-top .choice-history{
+  min-width:0;
+}
+.mt-top .choice-history{
+  padding:0;
+}
+.mt-top h4,
+.conditions-panel h4,
+.managed-wide h4{
+  margin:0 0 7px;
+  font-size:11px;
+  line-height:1.2;
+  font-weight:700;
+  color:var(--navy);
+}
+.mt-top .choice-bars{
+  display:grid;
+  gap:5px;
+}
+.mt-top .choice-bar{
+  grid-template-columns:14px 1fr 22px;
+}
+.mt-top .choice-track{
+  height:10px;
+}
+.conditions-panel{
+  margin:0;
+  padding:8px 16px 9px;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:#fafbfc;
+}
+.conditions-panel h4{
+  margin-bottom:4px;
+}
+.conditions-content{
+  font-size:11px;
+  line-height:1.35;
+  color:#344054;
+}
+.conditions-content .empty,
+.conditions-content p,
+.conditions-content div,
+.conditions-content ul{
+  font-size:11px;
+  line-height:1.35;
+}
+.conditions-content ul{
+  margin:3px 0 0;
+  padding-left:17px;
+}
+.conditions-content li{
+  margin:2px 0;
+}
+.managed-wide{
+  padding:9px 16px 7px;
+}
+.managed-wide ul{
+  margin:3px 0 0;
+  padding-left:18px;
+  font-size:11px;
+  line-height:1.35;
+}
+.managed-wide .empty{
+  font-size:11px;
+  color:#667085;
+}
+.mt-card .body{display:none}
+.mt-card > .choice-history{display:none}
+@media(max-width:1100px){
+  .mt-top{grid-template-columns:1fr}
+}

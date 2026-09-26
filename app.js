@@ -1,9 +1,9 @@
-const STORE='mt-risk-sim-v17';let DATA,state,undoStack=[];let sb=null;
+const STORE='mt-risk-sim-v18';let DATA,state,undoStack=[];let sb=null;
 if(window.supabase&&window.SUPABASE_CONFIG){sb=window.supabase.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.publishableKey);}
 const labels={A:'Terugleggen bij de afzender',B:'Aanvullende informatie opvragen',C:'Opnemen als MT-risico',D:'Escaleren naar bestuur'};
 const scoreNames={grip:'Grip op risico\'s',eig:'Eigenaarschap & vertrouwen',uit:'Uitvoerbaarheid',strat:'Strategische slagkracht'};
 const riskFields=[['Bereikbaarheid','Risico_Bereikbaarheid'],['Leefbaarheid','Risico_Leefbaarheid'],['Veiligheid','Risico_Veiligheid'],['Imago','Risico_Imago'],['Kosten','Risico_Kosten']];
-async function boot(){DATA=await fetch('game-data.json?v=17').then(r=>r.json());state=load()||fresh();render();await syncAllToSupabase();}
+async function boot(){DATA=await fetch('game-data.json?v=18').then(r=>r.json());state=load()||fresh();render();await syncAllToSupabase();}
 function fresh(){let starts={grip:+DATA.config["Startscore Grip op risico's"]||70,eig:+DATA.config['Startscore Eigenaarschap & vertrouwen']||70,uit:+DATA.config['Startscore Uitvoerbaarheid']||70,strat:+DATA.config['Startscore Strategische slagkracht']||70};return{started:false,round:1,mts:[1,2,3,4].map(i=>({id:i,name:`MT ${i}`,scores:{...starts},budget:+DATA.config['Startbudget kEUR']||10000,cap:+DATA.config['Startcapaciteit %']||100,current:'R1.1_START',line:1,step:1,managed:[],history:[],counters:{MICRO:0,ANALYSE:0,ESCAL:0,PREM_ESCAL:0,AFHOUD:0,GOOD_GOV:0},triggered:[],events:[],chosen:false}))};}
 function load(){try{return JSON.parse(localStorage.getItem(STORE))}catch(e){return null}}function save(){localStorage.setItem(STORE,JSON.stringify(state))}function clamp(x){return Math.max(0,Math.min(100,x))}function scen(id){return DATA.scenarios.find(x=>x.Scenario_ID===id)}function effect(risk,ch){return DATA.effects.find(x=>x.Risico_ID===risk&&x.Keuze===ch)}function route(risk,ch){return DATA.routes.find(x=>x.Huidig_risico===risk&&x.Keuze===ch)}
 function riskProfile(s){if(!s)return'';return `<div class="risk-profile">${riskFields.map(([label,key])=>`<div class="risk-pill risk-${String(s[key]||'').toLowerCase()}"><span>${label}</span><strong>${esc(s[key]||'-')}</strong></div>`).join('')}</div>`}
@@ -38,10 +38,12 @@ function render(){
     let counts=choiceCounts(mt);
     let card=document.createElement('section');card.className='mt-card';
     card.innerHTML=`<div class="mt-head"><h2>${mt.name}</h2><div class="head-actions"><a class="team-link" href="team.html?mt=${mt.id}" target="_blank">QR / telefoon</a><span class="eyebrow">Ronde ${state.round}</span></div></div>
-    <div class="body"><div class="scores"><h4>Vier scorepijlers</h4><div class="score-grid">${score('grip',mt.scores.grip)}${score('eig',mt.scores.eig)}${score('uit',mt.scores.uit)}${score('strat',mt.scores.strat)}</div></div>
-    <div class="managed"><h4>Actieve MT-risico's (keuze C)</h4>${mt.managed.length?`<ul>${mt.managed.map(x=>`<li><strong>${esc(x.id)}</strong> ${esc(x.title)}</li>`).join('')}</ul>`:'<div class="empty">Nog geen risico’s door het MT opgenomen.</div>'}</div></div>
-    <div class="events-panel"><h4>Condities / gebeurtenissen</h4>${mt.events.length?`<ul>${mt.events.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<div class="empty">Nog geen aanvullende condities of gebeurtenissen.</div>'}</div>
-    <div class="choice-history"><h4>Keuzes deze sessie</h4><div class="choice-bars">${['A','B','C','D'].map(ch=>{let max=Math.max(1,...Object.values(counts));let pct=counts[ch]/max*100;return `<div class="choice-bar-row"><span class="bar-letter">${ch}</span><div class="bar-track"><div class="bar-fill bar-${ch.toLowerCase()}" style="width:${pct}%"></div></div><b>${counts[ch]}</b></div>`}).join('')}</div></div>
+    <div class="mt-top">
+      <div class="scores"><h4>Vier scorepijlers</h4><div class="score-grid">${score('grip',mt.scores.grip)}${score('eig',mt.scores.eig)}${score('uit',mt.scores.uit)}${score('strat',mt.scores.strat)}</div></div>
+      <div class="choice-history"><h4>Keuzes deze sessie</h4><div class="choice-bars">${['A','B','C','D'].map(ch=>choiceBar(ch,counts[ch],mt.history.length)).join('')}</div></div>
+    </div>
+    <div class="conditions-panel"><h4>Condities / gebeurtenissen</h4><div class="conditions-content">${conditionsHtml(mt)}</div></div>
+    <div class="managed managed-wide"><h4>Actieve MT-risico's (keuze C)</h4>${mt.managed.length?`<ul>${mt.managed.map(x=>`<li><strong>${esc(x.id)}</strong> ${esc(x.title)}</li>`).join('')}</ul>`:'<div class="empty">Nog geen risico’s door het MT opgenomen.</div>'}</div>
     <div class="choice"><div class="buttons">${['A','B','C','D'].map(ch=>`<button class="choice-btn ${chosen===ch?'selected':''}" ${mt.chosen?'disabled':''} onclick="preview(${mt.id},'${ch}')"><strong>${ch}</strong><br>${labels[ch]}</button>`).join('')}</div><div class="status">${mt.chosen?`Keuze ${chosen} voor deze ronde verwerkt.`:'Nog geen keuze ingevoerd.'}</div></div>`;
     g.appendChild(card)
   });
