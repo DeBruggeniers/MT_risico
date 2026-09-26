@@ -289,3 +289,45 @@
 .managed-wide ul.managed-grid li{
   background:rgba(255,255,255,.76);
 }
+
+
+/* =========================================================
+   v21: rustigere MT-kleuren
+   Alleen kopregel + kader in teamkleur, inhoud neutraal
+   ========================================================= */
+
+.mt-card.mt-1,
+.mt-card.mt-2,
+.mt-card.mt-3,
+.mt-card.mt-4{
+  background:#ffffff;
+}
+
+/* Kader per MT in herkenbare kleur */
+.mt-card.mt-1{border-color:#8ebee9}
+.mt-card.mt-2{border-color:#92c99f}
+.mt-card.mt-3{border-color:#bea0d7}
+.mt-card.mt-4{border-color:#e6ad78}
+
+/* Kopregels behouden de teamkleur */
+.mt-card.mt-1 .mt-head{background:#e1f0ff;border-bottom-color:#8ebee9}
+.mt-card.mt-2 .mt-head{background:#e3f4e7;border-bottom-color:#92c99f}
+.mt-card.mt-3 .mt-head{background:#eee3f7;border-bottom-color:#bea0d7}
+.mt-card.mt-4 .mt-head{background:#ffe9d5;border-bottom-color:#e6ad78}
+
+/* Inhoud verder neutraal en rustig */
+.mt-card .mt-top,
+.mt-card .managed-wide,
+.mt-card .choice{
+  background:#ffffff;
+}
+
+/* Conditiebalk blijft neutraal zolang niets speelt */
+.mt-card .conditions-panel:not(.has-event){
+  background:#fafbfc;
+}
+
+/* Oranje signalering bij actieve conditie blijft leidend */
+.mt-card .conditions-panel.has-event{
+  background:#fff3e8;
+}
