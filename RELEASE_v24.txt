@@ -1,0 +1,16 @@
+MT Risicosimulatie v24.0 - mobiele eindpagina herontwerp
+
+De telefoon-eindpagina is volledig opnieuw vormgegeven en sluit nu visueel aan op de docentbediening:
+- gecentreerde titel 'Eindresultaat'
+- MT-kaart met gekleurde kopregel
+- profiel prominent rechts in de kop
+- passende governancekeuzes als duidelijke badge
+- vier scorepijlers in afzonderlijke scorekaarten
+- A/B/C/D in compacte badges
+- profieltekst in leesbare tekstgrootte
+- groen vlak voor Sterk
+- lichtoranje vlak voor Aandachtspunt / Reflectievraag
+- gemiddelde effectscore visueel ondergeschikt
+- responsive 2x2 scores op telefoon, 4 naast elkaar op bredere schermen
+- bestaande synchronisatie uit v23.9 behouden
+- cache busting v24.0

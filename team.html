@@ -1,1 +1,34 @@
-<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MT Risicokaart</title><link rel="stylesheet" href="team.css?v=23.9"></head><body><main><div class="top"><div><div class="eyebrow">MT Risicosimulatie · Noordzeeland</div><h1 id="team">MT</h1></div><div id="round" class="round"></div></div><article><div id="risk" class="eyebrow"></div><h2 id="title">Risico laden…</h2><section class="risk-section"><h3>Context</h3><p id="context"></p></section><section class="risk-section"><h3>Onzekere gebeurtenis</h3><p id="event"></p></section><section class="risk-section"><h3>Risico per bedrijfswaarde</h3><div id="riskProfile" class="risk-profile"></div></section><div id="meta" class="meta"></div><div class="live" id="live">○ Verbinden…</div><section class="conditions"><h3>Condities / gebeurtenissen</h3><div id="conditions"></div></section><section class="managed"><h3>Actieve MT-risico's</h3><div id="managedRisks"></div></section></article></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="team.js?v=23.9"></script></body></html>
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MT Risicokaart</title><link rel="stylesheet" href="team.css?v=24.0">
+<style id="mobile-end-v24">
+body.team-finished{background:#eef1f5!important;color:#13265c!important}
+body.team-finished main{padding:0!important;margin:0!important;max-width:none!important}
+.team-end-result{display:block!important;max-width:760px!important;margin:0 auto!important;padding:24px 14px 40px!important;box-sizing:border-box!important;font-family:Arial,Helvetica,sans-serif!important}
+.mobile-end-title{text-align:center;margin:2px 0 18px!important}
+.mobile-end-kicker{font-size:11px!important;letter-spacing:.12em!important;color:#6b7588!important;font-weight:700!important;margin-bottom:4px!important}
+.mobile-end-title h1{font-size:28px!important;line-height:1.1!important;color:#14275f!important;margin:0!important;font-weight:800!important}
+.mobile-result-card{background:#fff!important;border:1.5px solid #9fc8ee!important;border-radius:14px!important;overflow:hidden!important;box-shadow:0 2px 8px rgba(18,39,95,.06)!important}
+.mobile-result-head{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:12px!important;background:#dcecff!important;border-bottom:1px solid #b8d4ef!important;padding:12px 14px!important}
+.mobile-result-mt{font-size:20px!important;font-weight:800!important;color:#14275f!important;white-space:nowrap!important}
+.mobile-result-profile{text-align:right!important;font-size:14px!important;line-height:1.25!important;font-weight:800!important;color:#14275f!important}
+.mobile-result-body{padding:14px!important}
+.mobile-fit-row{display:flex!important;justify-content:center!important;margin:0 0 12px!important}
+.mobile-fit-number{display:inline-block!important;background:#eaf2ff!important;border:1px solid #bfd4f3!important;border-radius:999px!important;padding:8px 12px!important;font-size:13px!important;line-height:1.2!important;font-weight:800!important;color:#14275f!important;text-align:center!important}
+.mobile-score-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;margin-bottom:9px!important}
+.mobile-score{background:#f7f8fa!important;border:1px solid #e0e5eb!important;border-radius:9px!important;padding:9px 5px!important;text-align:center!important;min-width:0!important}
+.mobile-score span{display:block!important;font-size:10px!important;line-height:1.15!important;color:#657086!important;margin-bottom:3px!important}
+.mobile-score strong{display:block!important;font-size:25px!important;line-height:1!important;color:#14275f!important;font-weight:800!important}
+.mobile-choice-row{display:flex!important;gap:6px!important;justify-content:flex-start!important;margin:10px 0 14px!important}
+.mobile-choice-row span{display:inline-flex!important;align-items:center!important;gap:4px!important;background:#f0f2f5!important;border-radius:999px!important;padding:5px 9px!important;font-size:11px!important;line-height:1!important;color:#28354f!important}
+.mobile-profile-copy{border-top:1px solid #e4e7ec!important;padding-top:13px!important;margin-top:2px!important;font-size:14px!important;line-height:1.45!important;color:#202a3c!important}
+.mobile-feedback{display:flex!important;flex-direction:column!important;gap:3px!important;border-radius:8px!important;padding:10px 11px!important;margin-top:10px!important;font-size:13px!important;line-height:1.4!important}
+.mobile-feedback b{font-size:12px!important}
+.mobile-feedback-good{background:#edf8f0!important;color:#285f38!important}
+.mobile-feedback-att{background:#fff3e6!important;color:#7a481f!important}
+.mobile-average{text-align:center!important;color:#737d8f!important;font-size:11px!important;margin-top:13px!important}
+@media(min-width:600px){
+ .mobile-score-grid{grid-template-columns:repeat(4,1fr)!important}
+ .team-end-result{padding-top:34px!important}
+}
+</style>
+
+</head><body><main><div class="top"><div><div class="eyebrow">MT Risicosimulatie · Noordzeeland</div><h1 id="team">MT</h1></div><div id="round" class="round"></div></div><article><div id="risk" class="eyebrow"></div><h2 id="title">Risico laden…</h2><section class="risk-section"><h3>Context</h3><p id="context"></p></section><section class="risk-section"><h3>Onzekere gebeurtenis</h3><p id="event"></p></section><section class="risk-section"><h3>Risico per bedrijfswaarde</h3><div id="riskProfile" class="risk-profile"></div></section><div id="meta" class="meta"></div><div class="live" id="live">○ Verbinden…</div><section class="conditions"><h3>Condities / gebeurtenissen</h3><div id="conditions"></div></section><section class="managed"><h3>Actieve MT-risico's</h3><div id="managedRisks"></div></section></article></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="team.js?v=24.0"></script></body></html>

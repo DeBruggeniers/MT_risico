@@ -127,22 +127,45 @@ function renderPublishedEnd(er){
   [...main.children].forEach(ch=>{if(ch!==el)ch.style.display='none'});
   el.style.display='block';
   const s=er.scores||{}, cc=er.choices||{A:0,B:0,C:0,D:0};
+  const profileParts=(er.profile||'').split('·').map(x=>x.trim());
+  const level=profileParts[0]||'';
+  const style=profileParts.slice(1).join(' · ')||'';
   el.innerHTML=`
-    <div class="team-end-kicker">Eindresultaat</div>
-    <h1>${esc(er.mt_name||('MT '+id))}</h1>
-    <div class="team-end-profile">${esc(er.profile||'')}</div>
-    <div class="team-end-fit">${esc(er.preferredText||'')}</div>
-    <div class="team-end-scores">
-      <div><span>Grip</span><strong>${s.grip??'-'}</strong></div>
-      <div><span>Eigenaarschap</span><strong>${s.eig??'-'}</strong></div>
-      <div><span>Uitvoerbaarheid</span><strong>${s.uit??'-'}</strong></div>
-      <div><span>Strategisch</span><strong>${s.strat??'-'}</strong></div>
+    <div class="mobile-end-title">
+      <div class="mobile-end-kicker">EINDRESULTAAT</div>
+      <h1>${esc(er.mt_name||('MT '+id))}</h1>
     </div>
-    <div class="team-end-choices"><span>A <b>${cc.A||0}</b></span><span>B <b>${cc.B||0}</b></span><span>C <b>${cc.C||0}</b></span><span>D <b>${cc.D||0}</b></span></div>
-    <p class="team-end-desc">${esc(er.description||'')}</p>
-    <div class="team-end-good"><b>Sterk</b><br>${esc(er.strong||'').replace(/^Sterk:\s*/,'')}</div>
-    <div class="team-end-att"><b>${er.reflection?'Reflectievraag':'Aandachtspunt'}</b><br>${esc(er.attention||'').replace(/^(Reflectievraag|Aandachtspunt):\s*/,'')}</div>
-    <div class="team-end-average">${esc(er.averageText||'')}</div>`;
+    <article class="mobile-result-card">
+      <header class="mobile-result-head">
+        <div class="mobile-result-mt">${esc(er.mt_name||('MT '+id))}</div>
+        <div class="mobile-result-profile">${esc(er.profile||'')}</div>
+      </header>
+      <div class="mobile-result-body">
+        <div class="mobile-fit-row">
+          <div class="mobile-fit-number">${esc(er.preferredText||'')}</div>
+        </div>
+        <div class="mobile-score-grid">
+          <div class="mobile-score"><span>Grip</span><strong>${s.grip??'-'}</strong></div>
+          <div class="mobile-score"><span>Eigenaarschap</span><strong>${s.eig??'-'}</strong></div>
+          <div class="mobile-score"><span>Uitvoerbaarheid</span><strong>${s.uit??'-'}</strong></div>
+          <div class="mobile-score"><span>Strategisch</span><strong>${s.strat??'-'}</strong></div>
+        </div>
+        <div class="mobile-choice-row">
+          <span>A <b>${cc.A||0}</b></span><span>B <b>${cc.B||0}</b></span>
+          <span>C <b>${cc.C||0}</b></span><span>D <b>${cc.D||0}</b></span>
+        </div>
+        <div class="mobile-profile-copy">${esc(er.description||'')}</div>
+        <div class="mobile-feedback mobile-feedback-good">
+          <b>Sterk</b>
+          <span>${esc(er.strong||'').replace(/^Sterk:\s*/,'')}</span>
+        </div>
+        <div class="mobile-feedback mobile-feedback-att">
+          <b>${er.reflection?'Reflectievraag':'Aandachtspunt'}</b>
+          <span>${esc(er.attention||'').replace(/^(Reflectievraag|Aandachtspunt):\s*/,'')}</span>
+        </div>
+        <div class="mobile-average">${esc(er.averageText||'')}</div>
+      </div>
+    </article>`;
 }
 function render(row){
   if(row){
