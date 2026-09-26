@@ -1,9 +1,9 @@
-const STORE='mt-risk-sim-v23-5';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
+const STORE='mt-risk-sim-v23-7';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
 if(window.supabase&&window.SUPABASE_CONFIG){sb=window.supabase.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.publishableKey);}
 const labels={A:'Terugleggen bij de afzender',B:'Aanvullende informatie opvragen',C:'Opnemen als MT-risico',D:'Escaleren naar bestuur'};
 const scoreNames={grip:'Grip op risico\'s',eig:'Eigenaarschap & vertrouwen',uit:'Uitvoerbaarheid',strat:'Strategische slagkracht'};
 const riskFields=[['Bereikbaarheid','Risico_Bereikbaarheid'],['Leefbaarheid','Risico_Leefbaarheid'],['Veiligheid','Risico_Veiligheid'],['Imago','Risico_Imago'],['Kosten','Risico_Kosten']];
-async function boot(){DATA=await fetch('game-data.json?v=23.5').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=23.5').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
+async function boot(){DATA=await fetch('game-data.json?v=23.7').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=23.7').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
 if(typeof state.finished!=='boolean')state.finished=false;
 if(!Array.isArray(state.mts)||state.mts.length!==4)state=fresh();
 for(const mt of state.mts){
@@ -72,75 +72,109 @@ function governanceChoiceQuality(riskId,choice){
 }
 function governancePattern(mt){
   const hist=Array.isArray(mt.history)?mt.history:[];
-  const g={total:0,optimal:0,acceptable:0,micro:0,analyse:0,afhoudend:0,prematuur:0};
+  const g={total:0,preferred:0,micro:0,analyse:0,afhoudend:0,prematuur:0,afwijkingen:[]};
   for(const h of hist){
     const rid=h.riskId||h.risicoId||h.risk||h.risico;
     const ch=(h.choice||h.keuze||h.chosen||'').toString().toUpperCase();
     if(!rid||!'ABCD'.includes(ch))continue;
-    const q=governanceChoiceQuality(rid,ch);
+
+    const choices=['A','B','C','D'].map(c=>({ch:c,q:governanceChoiceQuality(rid,c)}));
+    const best=Math.max(...choices.map(x=>x.q.mine));
+    const pref=(choices.find(x=>Math.abs(x.q.mine-best)<=0.01)||{}).ch||ch;
+
     g.total++;
-    if(q.optimal)g.optimal++;
-    if(q.acceptable)g.acceptable++;
-    if(!q.acceptable){
-      if(ch==='C')g.micro++;
-      else if(ch==='B')g.analyse++;
-      else if(ch==='A')g.afhoudend++;
-      else if(ch==='D')g.prematuur++;
-    }
+    if(ch===pref){ g.preferred++; continue; }
+
+    const q=governanceChoiceQuality(rid,ch);
+    g.afwijkingen.push({riskId:rid,chosen:ch,preferred:pref,gap:q.gap});
+    if(ch==='A')g.afhoudend++;
+    if(ch==='B')g.analyse++;
+    if(ch==='C')g.micro++;
+    if(ch==='D')g.prematuur++;
   }
-  g.fit=g.total?g.optimal/g.total:0;
-  g.acceptFit=g.total?g.acceptable/g.total:0;
+  g.deviations=g.total-g.preferred;
+  g.fit=g.total?g.preferred/g.total:0;
   return g;
 }
+function performanceLevelByPreferred(g){
+  if(g.preferred>=15)return 'Zeer sterk';
+  if(g.preferred>=13)return 'Sterk';
+  if(g.preferred>=11)return 'Prima';
+  if(g.preferred>=9)return 'In ontwikkeling';
+  return 'Voor verbetering vatbaar';
+}
+function governanceStyleFromDeviations(g){
+  if(g.deviations===0)return 'Passend sturend';
+  const ranked=[
+    ['Controlerend sturend',g.micro],
+    ['Onderzoekend sturend',g.analyse],
+    ['Ruimtegevend sturend',g.afhoudend],
+    ['Bestuurlijk schakelend',g.prematuur]
+  ].sort((a,b)=>b[1]-a[1]);
+  if(ranked[0][1]===0)return 'Evenwichtig sturend';
+  if(ranked[0][1]===ranked[1][1])return 'Gemengd sturingsprofiel';
+  // Herhaling telt: pas vanaf minimaal twee dezelfde afwijkingen spreken we van een reflex.
+  if(ranked[0][1]===1)return 'Incidentele afwijking';
+  return ranked[0][0];
+}
 function profileFor(mt){
-  if(!PROFILE_DATA)return null;
   const v=endVector(mt);
-  const avg=(v.grip+v.eigenaarschap+v.uitvoerbaarheid+v.strategisch)/4;
   const g=governancePattern(mt);
+  const niveau=performanceLevelByPreferred(g);
+  const stijl=governanceStyleFromDeviations(g);
+  const n=g.total||16;
+  const avg=Math.round((v.grip+v.eigenaarschap+v.uitvoerbaarheid+v.strategisch)/4*10)/10;
 
-  // Een (nagenoeg) optimale route krijgt geen kunstmatig negatief gedragslabel.
-  if(g.total>=12 && g.fit>=0.94 && avg>=92){
+  if(g.preferred>=15){
     return {
-      naam:'Uitstekend · Passend sturend',
-      beschrijving:'Jullie hebben gedurende de simulatie vrijwel steeds gekozen voor het niveau waar het risico daadwerkelijk beheerst kon worden. De hoge scores komen voort uit passende governancekeuzes, niet uit een vaste voorkeur voor A, B, C of D.',
-      sterk:'Sterk: jullie onderscheiden scherp wanneer verantwoordelijkheid bij de organisatie kan blijven, wanneer MT-sturing nodig is en wanneer bestuurlijke besluitvorming aan de orde is.',
-      aandachtspunt:'Reflectievraag: wat hielp jullie om steeds onderscheid te maken tussen een ernstig risico en een risico dat daadwerkelijk MT-sturing vraagt?',
+      naam:`${niveau} · Passend sturend`,
+      preferredText:`${g.preferred} van ${n} passende governancekeuzes`,
+      averageText:`Gemiddelde effectscore ${avg}`,
+      beschrijving:`Jullie kozen bij ${g.preferred} van de ${n} risico's voor de voorkeurskeuze. Daarmee is de governance over vrijwel de hele simulatie passend. De vier scorepijlers laten het effect daarvan op de organisatie zien.`,
+      sterk:'Sterk: jullie bepalen per risico welk organisatieniveau daadwerkelijk kan sturen en laten je niet leiden door een vaste voorkeur voor A, B, C of D.',
+      aandachtspunt:'Reflectievraag: welke afweging hielp jullie het meest om te bepalen waar een risico thuishoort?',
       perfect:true
     };
   }
 
-  let niveau=avg<80.5?'In ontwikkeling':avg<84.5?'Ontwikkelend':avg<89?'Stevig':avg<92.5?'Sterk':'Zeer sterk';
+  const reflex={
+    'Controlerend sturend':`Bij ${g.micro} afwijkende keuzes is een risico naar het MT getrokken terwijl een andere interventie passender was. Omdat deze reflex zich herhaalt, is dit bepalend voor het profiel.`,
+    'Onderzoekend sturend':`Bij ${g.analyse} afwijkende keuzes is aanvullende informatie gevraagd terwijl een andere interventie passender was. Omdat deze reflex zich herhaalt, is dit bepalend voor het profiel.`,
+    'Ruimtegevend sturend':`Bij ${g.afhoudend} afwijkende keuzes is het risico teruggelegd terwijl meer sturing of opschaling passender was. Omdat deze reflex zich herhaalt, is dit bepalend voor het profiel.`,
+    'Bestuurlijk schakelend':`Bij ${g.prematuur} afwijkende keuzes is bestuurlijk geëscaleerd terwijl een andere interventie passender was. Omdat deze reflex zich herhaalt, is dit bepalend voor het profiel.`,
+    'Gemengd sturingsprofiel':`De ${g.deviations} afwijkende keuzes laten meerdere typen reflexen zien. Er is geen duidelijke dominante afwijking.`,
+    'Incidentele afwijking':`Er zijn ${g.deviations} afwijkende keuzes, maar geen type afwijking komt vaak genoeg terug om van een vaste reflex te spreken.`,
+    'Evenwichtig sturend':`De afwijkende keuzes laten geen duidelijke vaste sturingsreflex zien.`
+  }[stijl];
 
-  // Stijl wordt alleen toegekend op basis van niet-passende keuzes.
-  let stijl='Evenwichtig sturend';
-  const mx=Math.max(g.micro,g.analyse,g.afhoudend,g.prematuur);
-  if(mx>0){
-    if(g.micro===mx)stijl='Controlerend sturend';
-    else if(g.analyse===mx)stijl='Onderzoekend sturend';
-    else if(g.afhoudend===mx)stijl='Ruimtegevend sturend';
-    else if(g.prematuur===mx)stijl='Bestuurlijk schakelend';
-  }
+  const strong={
+    'Controlerend sturend':'Sterk: jullie herkennen regelmatig wanneer centrale MT-sturing nodig is.',
+    'Onderzoekend sturend':'Sterk: jullie zijn alert op onzekerheid en de kwaliteit van besluitinformatie.',
+    'Ruimtegevend sturend':'Sterk: jullie proberen verantwoordelijkheid zoveel mogelijk te laten waar het risico beheerst kan worden.',
+    'Bestuurlijk schakelend':'Sterk: jullie zijn alert op vraagstukken die het mandaat van het MT kunnen overstijgen.',
+    'Gemengd sturingsprofiel':'Sterk: jullie bekijken risico’s vanuit verschillende governanceperspectieven.',
+    'Incidentele afwijking':'Sterk: er is geen duidelijke eenzijdige governance-reflex zichtbaar.',
+    'Evenwichtig sturend':'Sterk: er is geen duidelijke eenzijdige governance-reflex zichtbaar.'
+  }[stijl];
 
-  const p=PROFILE_DATA.profiles.find(x=>{
-    const pn=(x.niveau==='Kwetsbaar'?'In ontwikkeling':x.niveau);
-    const ps=x.stijl==='Escalerend'?'Bestuurlijk schakelend':
-             x.stijl==='Evenwichtig'?'Evenwichtig sturend':
-             x.stijl==='Controlerend'?'Controlerend sturend':
-             x.stijl==='Ruimtegevend'?'Ruimtegevend sturend':
-             x.stijl==='Onderzoekend'?'Onderzoekend sturend':x.stijl;
-    return pn===niveau&&ps===stijl;
-  });
+  const attention={
+    'Controlerend sturend':'Aandachtspunt: toets eerst of de afzender voldoende mandaat en middelen heeft voordat een risico door het MT wordt overgenomen.',
+    'Onderzoekend sturend':'Aandachtspunt: vraag alleen aanvullende informatie op wanneer die informatie de uiteindelijke keuze daadwerkelijk kan veranderen.',
+    'Ruimtegevend sturend':'Aandachtspunt: leg niet terug wanneer samenhang, middelen of mandaat maken dat de afzender het risico feitelijk niet zelf kan beheersen.',
+    'Bestuurlijk schakelend':'Aandachtspunt: onderscheid een groot risico van een vraagstuk waarvoor daadwerkelijk een bestuurlijk besluit nodig is.',
+    'Gemengd sturingsprofiel':'Aandachtspunt: maak per risico explicieter welke interventie nodig is en welk organisatieniveau daarvoor het juiste mandaat heeft.',
+    'Incidentele afwijking':'Aandachtspunt: bespreek vooral de afzonderlijke afwijkingen. Eén afwijking is nog geen patroon.',
+    'Evenwichtig sturend':'Aandachtspunt: bespreek vooral de afzonderlijke afwijkingen; daar zit meer leerwaarde dan in één dominante reflex.'
+  }[stijl];
 
-  if(p){
-    const copy={...p};
-    copy.naam=niveau+' · '+stijl;
-    if(g.total){
-      const pct=Math.round(g.fit*100);
-      copy.beschrijving=`${copy.beschrijving} ${pct}% van de keuzes was volgens de score- en routelogica de meest passende governancekeuze.`;
-    }
-    return copy;
-  }
-  return {naam:niveau+' · '+stijl,beschrijving:'Het profiel is bepaald op basis van de kwaliteit van de governancekeuzes en de balans tussen de vier scorepijlers.',sterk:'Sterk: het MT maakt bewuste afwegingen over het passende sturingsniveau.',aandachtspunt:'Reflectievraag: bij welke keuzes was mandaat, samenhang of benodigde informatie doorslaggevend?'};
+  return {
+    naam:`${niveau} · ${stijl}`,
+    preferredText:`${g.preferred} van ${n} passende governancekeuzes`,
+    averageText:`Gemiddelde effectscore ${avg}`,
+    beschrijving:`De primaire beoordeling is gebaseerd op de passende governancekeuzes. ${reflex} De vier scorepijlers tonen vervolgens wat dit gedrag gedurende het spel met de organisatie doet.`,
+    sterk:strong,
+    aandachtspunt:attention
+  };
 }
 function renderEndScreen(){
   const e=document.getElementById('endScreen'),g=document.getElementById('endGrid');if(!e||!g)return;

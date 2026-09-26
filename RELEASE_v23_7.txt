@@ -1,0 +1,19 @@
+MT Risicosimulatie v23.7
+
+Alle beoordelingslogica uit v23.6 is behouden.
+Alleen de benaming van de niveaus op basis van passende governancekeuzes is aangepast:
+
+15-16 van 16 = Zeer sterk
+13-14 van 16 = Sterk
+11-12 van 16 = Prima
+9-10 van 16 = In ontwikkeling
+0-8 van 16 = Voor verbetering vatbaar
+
+De hiërarchie blijft:
+1. passende governancekeuzes;
+2. type afwijkingen;
+3. herhaling van dezelfde reflex;
+4. vier scorepijlers als effectbeeld;
+5. gemiddelde eindscore als ondersteunende indicator.
+
+Cache busting verhoogd naar v23.7.

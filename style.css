@@ -474,3 +474,34 @@
   .end-grid{grid-template-columns:1fr}
   .end-card{min-height:auto}
 }
+
+/* v23.6 - hiërarchie eindbeoordeling */
+.end-hierarchy{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  padding:10px 16px 0;
+  flex-wrap:wrap;
+}
+.governance-fit{
+  padding:7px 12px;
+  border-radius:999px;
+  background:#e8f1ff;
+  border:1px solid #bfd4f3;
+  color:#14275f;
+  font-size:13px;
+  font-weight:800;
+}
+.average-support{
+  padding:7px 12px;
+  border-radius:999px;
+  background:#f4f5f7;
+  border:1px solid #dfe3e8;
+  color:#596273;
+  font-size:12px;
+  font-weight:600;
+}
+@media(min-width:1500px) and (min-height:850px){
+  .governance-fit{font-size:14px}
+  .average-support{font-size:13px}
+}

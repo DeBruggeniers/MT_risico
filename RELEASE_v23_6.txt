@@ -1,0 +1,18 @@
+MT Risicosimulatie v23.6 - hiërarchie eindbeoordeling
+
+De eindbeoordeling hanteert nu expliciet deze volgorde:
+1. Passende governancekeuzes: aantal voorkeurskeuzes van de 16 is de primaire indicator.
+2. Type afwijkingen: A, B, C of D gekozen waar een andere keuze passender was.
+3. Herhaling: pas bij minimaal twee dezelfde afwijkingen spreken we van een herkenbare reflex.
+4. Vier scorepijlers: tonen het cumulatieve effect op grip, eigenaarschap, uitvoerbaarheid en strategische slagkracht.
+5. Gemiddelde eindscore: alleen ondersteunende indicator en niet bepalend voor het profiel.
+
+Profielniveaus op basis van voorkeurskeuzes:
+15-16 Uitstekend
+13-14 Zeer sterk
+11-12 Sterk
+9-10 Stevig
+0-8 In ontwikkeling
+
+Bij 15-16 passende keuzes volgt geen geforceerd aandachtspunt maar een reflectievraag.
+Cache busting: v23.6.
