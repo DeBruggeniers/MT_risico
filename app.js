@@ -1,9 +1,9 @@
-const STORE='mt-risk-sim-v23-8';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
+const STORE='mt-risk-sim-v23-9';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
 if(window.supabase&&window.SUPABASE_CONFIG){sb=window.supabase.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.publishableKey);}
 const labels={A:'Terugleggen bij de afzender',B:'Aanvullende informatie opvragen',C:'Opnemen als MT-risico',D:'Escaleren naar bestuur'};
 const scoreNames={grip:'Grip op risico\'s',eig:'Eigenaarschap & vertrouwen',uit:'Uitvoerbaarheid',strat:'Strategische slagkracht'};
 const riskFields=[['Bereikbaarheid','Risico_Bereikbaarheid'],['Leefbaarheid','Risico_Leefbaarheid'],['Veiligheid','Risico_Veiligheid'],['Imago','Risico_Imago'],['Kosten','Risico_Kosten']];
-async function boot(){DATA=await fetch('game-data.json?v=23.8').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=23.8').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
+async function boot(){DATA=await fetch('game-data.json?v=23.9').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=23.9').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
 if(typeof state.finished!=='boolean')state.finished=false;
 if(!Array.isArray(state.mts)||state.mts.length!==4)state=fresh();
 for(const mt of state.mts){
@@ -217,7 +217,47 @@ function render(){
   const nextBtn=document.getElementById('nextRound');if(nextBtn){const ready=state.started&&state.mts.every(m=>m.chosen);nextBtn.disabled=!ready;nextBtn.classList.toggle('ready',ready)}
   save();publishPublicState()
 }
-async function syncMtToSupabase(mt){if(!sb)return;let s=state.started?(scen(mt.current)||DATA.scenarios.find(x=>x.Risico_ID===`R${mt.line}.${mt.step}`)):null;let row={ronde:state.started?state.round:0,scenario_id:state.started?(mt.current||null):null,risico_code:state.started?(s?.Risico_ID||'Einde'):'',risico_titel:state.started?(s?.Titel||'Risicolijn afgerond'):'Wachten op de start van de simulatie',risico_beschrijving:state.started?riskText(s):JSON.stringify({context:'Jullie zijn verbonden. De eerste risicokaart verschijnt zodra de docent de simulatie start.',event:'',risks:{}}),afzender:state.started?(s?.Afzender||'-'):'-',risico_eigenaar:JSON.stringify(state.started?(mt.events||[]):[]),score_grip:mt.scores.grip,score_eigenaarschap:mt.scores.eig,score_uitvoerbaarheid:mt.scores.uit,score_strategisch:mt.scores.strat,actieve_mt_risicos:state.started?mt.managed:[],updated_at:new Date().toISOString()};let {error}=await sb.from('mt_state').update(row).eq('mt_id',mt.id);if(error)console.error('Supabase sync MT '+mt.id,error);}
+
+function publicEndResult(mt){
+  const p=profileFor(mt);
+  const cc=choiceCounts(mt);
+  return {
+    finished:true,
+    mt_id:mt.id,
+    mt_name:mt.name,
+    profile:p?.naam||'',
+    preferredText:p?.preferredText||'',
+    averageText:p?.averageText||'',
+    description:p?.beschrijving||'',
+    strong:p?.sterk||'',
+    attention:p?.aandachtspunt||'',
+    reflection:!!p?.perfect,
+    scores:{grip:mt.scores.grip,eig:mt.scores.eig,uit:mt.scores.uit,strat:mt.scores.strat},
+    choices:cc
+  };
+}
+async function syncMtToSupabase(mt){
+  if(!sb)return;
+  let s=state.started?(scen(mt.current)||DATA.scenarios.find(x=>x.Risico_ID===`R${mt.line}.${mt.step}`)):null;
+  const endResult=state.finished?publicEndResult(mt):null;
+  let row={
+    ronde:state.started?state.round:0,
+    scenario_id:state.finished?'END':(state.started?(mt.current||null):null),
+    risico_code:state.finished?'EINDRESULTAAT':(state.started?(s?.Risico_ID||'Einde'):''),
+    risico_titel:state.finished?`Eindresultaat ${mt.name}`:(state.started?(s?.Titel||'Risicolijn afgerond'):'Wachten op de start van de simulatie'),
+    risico_beschrijving:state.finished?JSON.stringify({endResult}):(state.started?riskText(s):JSON.stringify({context:'Jullie zijn verbonden. De eerste risicokaart verschijnt zodra de docent de simulatie start.',event:'',risks:{}})),
+    afzender:state.finished?'':(state.started?(s?.Afzender||'-'):'-'),
+    risico_eigenaar:JSON.stringify(state.started?(mt.events||[]):[]),
+    score_grip:mt.scores.grip,
+    score_eigenaarschap:mt.scores.eig,
+    score_uitvoerbaarheid:mt.scores.uit,
+    score_strategisch:mt.scores.strat,
+    actieve_mt_risicos:state.started?mt.managed:[],
+    updated_at:new Date().toISOString()
+  };
+  let {error}=await sb.from('mt_state').update(row).eq('mt_id',mt.id);
+  if(error)console.error('Supabase sync MT '+mt.id,error);
+}
 async function syncAllToSupabase(){if(!sb)return;await Promise.all(state.mts.map(syncMtToSupabase));}
 function publishPublicState(){syncAllToSupabase();}
 
@@ -253,7 +293,7 @@ function checkConditions(mt){for(const c of DATA.conditions){if(!c.Eenmalig||!mt
 function counterVal(mt,k){return({MICRO:mt.counters.MICRO,ANALYSE:mt.counters.ANALYSE,PREM_ESCAL:mt.counters.PREM_ESCAL,ESCAL:mt.counters.ESCAL,AFHOUD:mt.counters.AFHOUD,GOOD_GOV:mt.counters.GOOD_GOV,ORG_GRIP:mt.scores.grip,ORG_EIG:mt.scores.eig,ORG_UIT:mt.scores.uit,ORG_STRAT:mt.scores.strat,INFO:mt.counters.ANALYSE})[k]??0}
 document.getElementById('fullscreen').onclick=async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen()}else{await document.exitFullscreen()}}catch(e){console.warn('Fullscreen niet beschikbaar',e)}};
 document.addEventListener('fullscreenchange',()=>{const b=document.getElementById('fullscreen');if(b)b.textContent=document.fullscreenElement?'⛶ Volledig scherm verlaten':'⛶ Volledig scherm'});
-document.getElementById('nextRound').onclick=()=>{if(!state.mts.every(x=>x.chosen))return alert('Nog niet alle vier MT’s hebben een keuze gemaakt.');undoStack.push(JSON.stringify(state));if(state.round>=16){state.finished=true;render();return}for(const mt of state.mts){if(mt.next){mt.current=mt.next;let s=scen(mt.current);mt.line=+(s?.Risico_ID?.split('.')[0].slice(1)||mt.line);mt.step=+(s?.Risico_ID?.split('.')[1]||mt.step)}else{if(mt.line<4){mt.line++;mt.step=1;mt.current=`R${mt.line}.1_START`}else mt.current=null}mt.chosen=false;mt.next=null}state.round++;render()};
+document.getElementById('nextRound').onclick=()=>{if(!state.mts.every(x=>x.chosen))return alert('Nog niet alle vier MT’s hebben een keuze gemaakt.');undoStack.push(JSON.stringify(state));if(state.round>=16){state.finished=true;render();publishPublicState();return}for(const mt of state.mts){if(mt.next){mt.current=mt.next;let s=scen(mt.current);mt.line=+(s?.Risico_ID?.split('.')[0].slice(1)||mt.line);mt.step=+(s?.Risico_ID?.split('.')[1]||mt.step)}else{if(mt.line<4){mt.line++;mt.step=1;mt.current=`R${mt.line}.1_START`}else mt.current=null}mt.chosen=false;mt.next=null}state.round++;render()};
 document.getElementById('startSimulation').onclick=()=>{if(state.started)return;undoStack.push(JSON.stringify(state));state.started=true;render();};
 document.getElementById('undo').onclick=()=>{if(!undoStack.length)return alert('Geen actie om ongedaan te maken.');state=JSON.parse(undoStack.pop());render()};document.getElementById('reset').onclick=()=>{if(confirm('Hele spelstatus wissen en opnieuw starten?')){localStorage.removeItem(STORE);state=fresh();undoStack=[];render()}};
 function esc(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}boot();

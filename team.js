@@ -118,8 +118,39 @@ function renderTeamEnd(mt){
     <div class="team-end-average">Gemiddelde effectscore ${p.avg}</div>`;
 }
 
+
+function renderPublishedEnd(er){
+  document.body.classList.add('team-finished');
+  const main=document.querySelector('main')||document.body;
+  let el=document.getElementById('teamEndResult');
+  if(!el){el=document.createElement('section');el.id='teamEndResult';el.className='team-end-result';main.appendChild(el);}
+  [...main.children].forEach(ch=>{if(ch!==el)ch.style.display='none'});
+  el.style.display='block';
+  const s=er.scores||{}, cc=er.choices||{A:0,B:0,C:0,D:0};
+  el.innerHTML=`
+    <div class="team-end-kicker">Eindresultaat</div>
+    <h1>${esc(er.mt_name||('MT '+id))}</h1>
+    <div class="team-end-profile">${esc(er.profile||'')}</div>
+    <div class="team-end-fit">${esc(er.preferredText||'')}</div>
+    <div class="team-end-scores">
+      <div><span>Grip</span><strong>${s.grip??'-'}</strong></div>
+      <div><span>Eigenaarschap</span><strong>${s.eig??'-'}</strong></div>
+      <div><span>Uitvoerbaarheid</span><strong>${s.uit??'-'}</strong></div>
+      <div><span>Strategisch</span><strong>${s.strat??'-'}</strong></div>
+    </div>
+    <div class="team-end-choices"><span>A <b>${cc.A||0}</b></span><span>B <b>${cc.B||0}</b></span><span>C <b>${cc.C||0}</b></span><span>D <b>${cc.D||0}</b></span></div>
+    <p class="team-end-desc">${esc(er.description||'')}</p>
+    <div class="team-end-good"><b>Sterk</b><br>${esc(er.strong||'').replace(/^Sterk:\s*/,'')}</div>
+    <div class="team-end-att"><b>${er.reflection?'Reflectievraag':'Aandachtspunt'}</b><br>${esc(er.attention||'').replace(/^(Reflectievraag|Aandachtspunt):\s*/,'')}</div>
+    <div class="team-end-average">${esc(er.averageText||'')}</div>`;
+}
 function render(row){
-  if(row && row.finished){renderTeamEnd(row.mt||row.team||row);return;}
+  if(row){
+    try{
+      const raw=typeof row.risico_beschrijving==='string'?JSON.parse(row.risico_beschrijving):row.risico_beschrijving;
+      if(raw?.endResult?.finished){renderPublishedEnd(raw.endResult);return;}
+    }catch(e){}
+  }
 document.getElementById('team').textContent=`MT ${id}`;if(!row){document.getElementById('title').textContent='Nog geen actuele risicokaart beschikbaar';document.getElementById('context').textContent='Wacht tot de docent de simulatie heeft gestart.';return;}const d=parseRisk(row.risico_beschrijving);document.getElementById('round').textContent=`Ronde ${row.ronde}`;document.getElementById('risk').textContent=`Actuele risicokaart · ${row.risico_code||''}`;document.getElementById('title').textContent=row.risico_titel||'';document.getElementById('context').textContent=d.context||'-';document.getElementById('event').textContent=d.event||'-';document.getElementById('meta').textContent=`Afzender: ${row.afzender||'-'}`;
  const order=['Bereikbaarheid','Leefbaarheid','Veiligheid','Imago','Kosten'];document.getElementById('riskProfile').innerHTML=order.map(k=>`<div class="risk-pill ${riskClass(d.risks?.[k])}"><span>${k}</span><strong>${esc(d.risks?.[k]||'-')}</strong></div>`).join('');
  const cond=parseConditions(row.risico_eigenaar);document.getElementById('conditions').innerHTML=cond.length?cond.map(x=>`<div class="condition-item">${esc(x)}</div>`).join(''):'<div class="empty">Er zijn nog geen aanvullende condities of gebeurtenissen actief.</div>';

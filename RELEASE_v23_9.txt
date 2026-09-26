@@ -1,0 +1,13 @@
+MT Risicosimulatie v23.9 - telefoon eindresultaat fix
+
+Oorzaak v23.8:
+- De telefoon wachtte op een Supabase-veld 'finished', maar dat veld bestaat niet in de bestaande mt_state-tabel.
+- Bij het afronden van ronde 16 werd de eindstatus bovendien niet meer naar Supabase gepubliceerd.
+
+Oplossing:
+- Geen databasewijziging nodig.
+- De docentbediening berekent het definitieve MT-profiel en schrijft dit als JSON in het bestaande veld risico_beschrijving.
+- Na het laatste risico wordt deze eindstatus direct naar alle vier MT-records gepubliceerd.
+- De telefoon herkent de endResult-payload via de bestaande realtime Supabase-update en schakelt automatisch naar het eigen eindresultaat.
+- Hierdoor is de profieltekst op telefoon exact dezelfde als op de docentbediening.
+- Cache busting v23.9.
