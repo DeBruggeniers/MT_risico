@@ -1,0 +1,13 @@
+MT Risicosimulatie v20
+
+Verbeteringen docentbediening:
+- Keuzeknoppen A/B/C/D staan per rij altijd op dezelfde verticale positie.
+- MT-kaarten rekken binnen een rij naar gelijke hoogte.
+- De keuzebalk wordt altijd naar de onderkant van het MT-vak gedrukt.
+- Duidelijkere teamkleuren:
+  MT 1 blauw
+  MT 2 groen
+  MT 3 paars
+  MT 4 oranje
+- De kleuren blijven licht genoeg voor goede leesbaarheid.
+- Cache busting verhoogd naar v20.

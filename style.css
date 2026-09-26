@@ -223,3 +223,69 @@
 @media(max-width:900px){
   .managed-wide ul.managed-grid{grid-template-columns:1fr}
 }
+
+
+/* =========================================================
+   v20: vaste knopuitlijning + duidelijker MT-kleuren
+   ========================================================= */
+
+/* Beide kaarten in een rij krijgen dezelfde hoogte en bouwen verticaal op */
+.grid{
+  align-items:stretch;
+}
+.mt-card{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  overflow:hidden;
+}
+
+/* De inhoud mag groeien; de keuzebalk wordt naar de onderzijde gedrukt */
+.mt-card .mt-top,
+.mt-card .conditions-panel,
+.mt-card .managed-wide{
+  flex:0 0 auto;
+}
+.mt-card .managed-wide{
+  flex:1 0 auto;
+}
+.mt-card .choice{
+  margin-top:auto;
+  flex:0 0 auto;
+}
+
+/* Duidelijk herkenbare, maar lichte teamkleuren */
+.mt-card.mt-1{
+  background:#eef6ff;
+  border-color:#b9d7f4;
+}
+.mt-card.mt-2{
+  background:#eff9f1;
+  border-color:#bddfc5;
+}
+.mt-card.mt-3{
+  background:#f6f0fb;
+  border-color:#d8c2e9;
+}
+.mt-card.mt-4{
+  background:#fff4e9;
+  border-color:#f0c9a4;
+}
+
+/* Kopbalk krijgt dezelfde kleurtoon iets sterker mee */
+.mt-card.mt-1 .mt-head{background:#e1f0ff;border-bottom-color:#b9d7f4}
+.mt-card.mt-2 .mt-head{background:#e3f4e7;border-bottom-color:#bddfc5}
+.mt-card.mt-3 .mt-head{background:#eee3f7;border-bottom-color:#d8c2e9}
+.mt-card.mt-4 .mt-head{background:#ffe9d5;border-bottom-color:#f0c9a4}
+
+/* Interne vlakken transparant houden zodat de teamkleur zichtbaar blijft */
+.mt-card .mt-top,
+.mt-card .managed-wide,
+.mt-card .choice{
+  background:transparent;
+}
+
+/* Risico-items blijven goed leesbaar op de gekleurde kaart */
+.managed-wide ul.managed-grid li{
+  background:rgba(255,255,255,.76);
+}
