@@ -1,5 +1,5 @@
 {
-  "method": "25 inhoudelijke profielen = 5 empirisch gekalibreerde prestatieniveaus x 5 herkenbare governance-stijlen",
+  "method": "25 inhoudelijke profielen op basis van prestatieniveau én kwaliteit van route-specifieke governancekeuzes; kale A/B/C/D-frequentie bepaalt het profiel niet meer.",
   "simulation_n": 1000,
   "level_thresholds": {
     "Kwetsbaar": "<80.5",
@@ -18,46 +18,46 @@
   "profiles": [
     {
       "id": 1,
-      "niveau": "Kwetsbaar",
+      "niveau": "In ontwikkeling",
       "stijl": "Evenwichtig",
-      "naam": "Kwetsbaar · Evenwichtig sturend",
-      "beschrijving": "De keuzes leveren nog onvoldoende samenhangende MT-sturing op. Meerdere pijlers staan onder druk. De vier pijlers zijn relatief in balans en er is geen dominante A/B/C/D-reflex zichtbaar.",
+      "naam": "In ontwikkeling · Evenwichtig sturend",
+      "beschrijving": "De sturing is nog niet consequent genoeg om op alle pijlers goed uit te komen. In meerdere situaties kan het gekozen governanceniveau scherper. De vier pijlers zijn relatief in balans en er is geen dominante A/B/C/D-reflex zichtbaar.",
       "sterk": "Sterk: De afweging tussen grip, eigenaarschap, uitvoerbaarheid en strategische aandacht blijft in balans.",
       "aandachtspunt": "Aandachtspunt: Blijf per risico expliciet toetsen wie daadwerkelijk kan beheersen en welk mandaat daarvoor nodig is."
     },
     {
       "id": 2,
-      "niveau": "Kwetsbaar",
+      "niveau": "In ontwikkeling",
       "stijl": "Controlerend",
-      "naam": "Kwetsbaar · Controlerend sturend",
-      "beschrijving": "De keuzes leveren nog onvoldoende samenhangende MT-sturing op. Meerdere pijlers staan onder druk. Grip is relatief sterk, maar het MT trekt ook geregeld risico's naar zich toe. Daardoor kunnen eigenaarschap en strategische ruimte achterblijven.",
+      "naam": "In ontwikkeling · Controlerend sturend",
+      "beschrijving": "De sturing is nog niet consequent genoeg om op alle pijlers goed uit te komen. In meerdere situaties kan het gekozen governanceniveau scherper. Grip is relatief sterk, maar het MT trekt ook geregeld risico's naar zich toe. Daardoor kunnen eigenaarschap en strategische ruimte achterblijven.",
       "sterk": "Sterk: Het MT ziet samenhang en neemt verantwoordelijkheid wanneer centrale sturing nodig is.",
       "aandachtspunt": "Aandachtspunt: Voorkom dat een serieus risico automatisch een MT-risico wordt. Laat beheersbare risico's bij de verantwoordelijke rol."
     },
     {
       "id": 3,
-      "niveau": "Kwetsbaar",
+      "niveau": "In ontwikkeling",
       "stijl": "Ruimtegevend",
-      "naam": "Kwetsbaar · Ruimtegevend sturend",
-      "beschrijving": "De keuzes leveren nog onvoldoende samenhangende MT-sturing op. Meerdere pijlers staan onder druk. Het MT laat verantwoordelijkheid relatief vaak bij de organisatie. Dat ondersteunt eigenaarschap, maar kan ten koste gaan van grip wanneer risico's meerdere onderdelen raken.",
+      "naam": "In ontwikkeling · Ruimtegevend sturend",
+      "beschrijving": "De sturing is nog niet consequent genoeg om op alle pijlers goed uit te komen. In meerdere situaties kan het gekozen governanceniveau scherper. Het MT laat verantwoordelijkheid relatief vaak bij de organisatie. Dat ondersteunt eigenaarschap, maar kan ten koste gaan van grip wanneer risico's meerdere onderdelen raken.",
       "sterk": "Sterk: Verantwoordelijkheid blijft zoveel mogelijk waar het risico daadwerkelijk beheerst kan worden.",
       "aandachtspunt": "Aandachtspunt: Grijp eerder in wanneer mandaat, middelen of samenhang het niveau van de afzender overstijgen."
     },
     {
       "id": 4,
-      "niveau": "Kwetsbaar",
+      "niveau": "In ontwikkeling",
       "stijl": "Onderzoekend",
-      "naam": "Kwetsbaar · Onderzoekend sturend",
-      "beschrijving": "De keuzes leveren nog onvoldoende samenhangende MT-sturing op. Meerdere pijlers staan onder druk. Het MT kiest relatief vaak voor aanvullende informatie. Dat helpt bij echte onzekerheid, maar kan besluitvorming vertragen wanneer extra informatie de keuze niet meer verandert.",
+      "naam": "In ontwikkeling · Onderzoekend sturend",
+      "beschrijving": "De sturing is nog niet consequent genoeg om op alle pijlers goed uit te komen. In meerdere situaties kan het gekozen governanceniveau scherper. Het MT kiest relatief vaak voor aanvullende informatie. Dat helpt bij echte onzekerheid, maar kan besluitvorming vertragen wanneer extra informatie de keuze niet meer verandert.",
       "sterk": "Sterk: Besluiten worden niet genomen op schijnzekerheid; relevante onzekerheid wordt eerst onderzocht.",
       "aandachtspunt": "Aandachtspunt: Vraag alleen informatie op die aantoonbaar verschil kan maken voor het besluit."
     },
     {
       "id": 5,
-      "niveau": "Kwetsbaar",
+      "niveau": "In ontwikkeling",
       "stijl": "Escalerend",
-      "naam": "Kwetsbaar · Bestuurlijk schakelend",
-      "beschrijving": "De keuzes leveren nog onvoldoende samenhangende MT-sturing op. Meerdere pijlers staan onder druk. Het MT schakelt relatief vaak met het bestuur. Dat is passend bij kader-, middelen- of risicobereidheidsvragen, maar niet ieder groot risico is een bestuurlijk risico.",
+      "naam": "In ontwikkeling · Bestuurlijk schakelend",
+      "beschrijving": "De sturing is nog niet consequent genoeg om op alle pijlers goed uit te komen. In meerdere situaties kan het gekozen governanceniveau scherper. Het MT schakelt relatief vaak met het bestuur. Dat is passend bij kader-, middelen- of risicobereidheidsvragen, maar niet ieder groot risico is een bestuurlijk risico.",
       "sterk": "Sterk: Het MT herkent vraagstukken die buiten het eigen mandaat kunnen vallen.",
       "aandachtspunt": "Aandachtspunt: Maak scherper onderscheid tussen een zwaar MT-risico en een vraagstuk waarvoor daadwerkelijk een bestuurlijk besluit nodig is."
     },

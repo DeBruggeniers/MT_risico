@@ -1,9 +1,9 @@
-const STORE='mt-risk-sim-v23-4';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
+const STORE='mt-risk-sim-v23-5';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
 if(window.supabase&&window.SUPABASE_CONFIG){sb=window.supabase.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.publishableKey);}
 const labels={A:'Terugleggen bij de afzender',B:'Aanvullende informatie opvragen',C:'Opnemen als MT-risico',D:'Escaleren naar bestuur'};
 const scoreNames={grip:'Grip op risico\'s',eig:'Eigenaarschap & vertrouwen',uit:'Uitvoerbaarheid',strat:'Strategische slagkracht'};
 const riskFields=[['Bereikbaarheid','Risico_Bereikbaarheid'],['Leefbaarheid','Risico_Leefbaarheid'],['Veiligheid','Risico_Veiligheid'],['Imago','Risico_Imago'],['Kosten','Risico_Kosten']];
-async function boot(){DATA=await fetch('game-data.json?v=23.4').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=23.4').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
+async function boot(){DATA=await fetch('game-data.json?v=23.5').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=23.5').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
 if(typeof state.finished!=='boolean')state.finished=false;
 if(!Array.isArray(state.mts)||state.mts.length!==4)state=fresh();
 for(const mt of state.mts){
@@ -52,17 +52,95 @@ function endVector(mt){
   return {grip:mt.scores.grip,eigenaarschap:mt.scores.eig,uitvoerbaarheid:mt.scores.uit,
           strategisch:mt.scores.strat,keuze_A:cc.A,keuze_B:cc.B,keuze_C:cc.C,keuze_D:cc.D};
 }
+function governanceChoiceQuality(riskId,choice){
+  const opts=['A','B','C','D'].map(ch=>{
+    const e=DATA.effects.find(x=>x.Risico_ID===riskId&&x.Keuze===ch);
+    if(!e)return {ch,utility:-999};
+    const ds=[
+      Number(e.Delta_grip||0),
+      Number(e.Delta_eigenaarschap_vertrouwen||0),
+      Number(e.Delta_uitvoerbaarheid||0),
+      Number(e.Delta_strategische_slagkracht||0)
+    ];
+    const mean=ds.reduce((a,b)=>a+b,0)/4;
+    const variance=ds.reduce((a,b)=>a+Math.pow(b-mean,2),0)/4;
+    return {ch,utility:mean-(0.10*Math.sqrt(variance))};
+  });
+  const best=Math.max(...opts.map(x=>x.utility));
+  const mine=(opts.find(x=>x.ch===choice)||{utility:-999}).utility;
+  return {best,mine,gap:best-mine,optimal:(best-mine)<=0.01,acceptable:(best-mine)<=1.25};
+}
+function governancePattern(mt){
+  const hist=Array.isArray(mt.history)?mt.history:[];
+  const g={total:0,optimal:0,acceptable:0,micro:0,analyse:0,afhoudend:0,prematuur:0};
+  for(const h of hist){
+    const rid=h.riskId||h.risicoId||h.risk||h.risico;
+    const ch=(h.choice||h.keuze||h.chosen||'').toString().toUpperCase();
+    if(!rid||!'ABCD'.includes(ch))continue;
+    const q=governanceChoiceQuality(rid,ch);
+    g.total++;
+    if(q.optimal)g.optimal++;
+    if(q.acceptable)g.acceptable++;
+    if(!q.acceptable){
+      if(ch==='C')g.micro++;
+      else if(ch==='B')g.analyse++;
+      else if(ch==='A')g.afhoudend++;
+      else if(ch==='D')g.prematuur++;
+    }
+  }
+  g.fit=g.total?g.optimal/g.total:0;
+  g.acceptFit=g.total?g.acceptable/g.total:0;
+  return g;
+}
 function profileFor(mt){
   if(!PROFILE_DATA)return null;
   const v=endVector(mt);
   const avg=(v.grip+v.eigenaarschap+v.uitvoerbaarheid+v.strategisch)/4;
-  let niveau=avg<80.5?'Kwetsbaar':avg<84.5?'Ontwikkelend':avg<89?'Stevig':avg<92.5?'Sterk':'Zeer sterk';
-  let stijl='Evenwichtig';
-  if(v.keuze_D>=5) stijl='Escalerend';
-  else if(v.keuze_B>=6) stijl='Onderzoekend';
-  else if(v.keuze_C>=7 || (v.grip-v.eigenaarschap)>=10 || (v.grip-v.strategisch)>=13) stijl='Controlerend';
-  else if(v.keuze_A>=6 || (v.eigenaarschap-v.grip)>=8) stijl='Ruimtegevend';
-  return PROFILE_DATA.profiles.find(p=>p.niveau===niveau&&p.stijl===stijl)||null;
+  const g=governancePattern(mt);
+
+  // Een (nagenoeg) optimale route krijgt geen kunstmatig negatief gedragslabel.
+  if(g.total>=12 && g.fit>=0.94 && avg>=92){
+    return {
+      naam:'Uitstekend · Passend sturend',
+      beschrijving:'Jullie hebben gedurende de simulatie vrijwel steeds gekozen voor het niveau waar het risico daadwerkelijk beheerst kon worden. De hoge scores komen voort uit passende governancekeuzes, niet uit een vaste voorkeur voor A, B, C of D.',
+      sterk:'Sterk: jullie onderscheiden scherp wanneer verantwoordelijkheid bij de organisatie kan blijven, wanneer MT-sturing nodig is en wanneer bestuurlijke besluitvorming aan de orde is.',
+      aandachtspunt:'Reflectievraag: wat hielp jullie om steeds onderscheid te maken tussen een ernstig risico en een risico dat daadwerkelijk MT-sturing vraagt?',
+      perfect:true
+    };
+  }
+
+  let niveau=avg<80.5?'In ontwikkeling':avg<84.5?'Ontwikkelend':avg<89?'Stevig':avg<92.5?'Sterk':'Zeer sterk';
+
+  // Stijl wordt alleen toegekend op basis van niet-passende keuzes.
+  let stijl='Evenwichtig sturend';
+  const mx=Math.max(g.micro,g.analyse,g.afhoudend,g.prematuur);
+  if(mx>0){
+    if(g.micro===mx)stijl='Controlerend sturend';
+    else if(g.analyse===mx)stijl='Onderzoekend sturend';
+    else if(g.afhoudend===mx)stijl='Ruimtegevend sturend';
+    else if(g.prematuur===mx)stijl='Bestuurlijk schakelend';
+  }
+
+  const p=PROFILE_DATA.profiles.find(x=>{
+    const pn=(x.niveau==='Kwetsbaar'?'In ontwikkeling':x.niveau);
+    const ps=x.stijl==='Escalerend'?'Bestuurlijk schakelend':
+             x.stijl==='Evenwichtig'?'Evenwichtig sturend':
+             x.stijl==='Controlerend'?'Controlerend sturend':
+             x.stijl==='Ruimtegevend'?'Ruimtegevend sturend':
+             x.stijl==='Onderzoekend'?'Onderzoekend sturend':x.stijl;
+    return pn===niveau&&ps===stijl;
+  });
+
+  if(p){
+    const copy={...p};
+    copy.naam=niveau+' · '+stijl;
+    if(g.total){
+      const pct=Math.round(g.fit*100);
+      copy.beschrijving=`${copy.beschrijving} ${pct}% van de keuzes was volgens de score- en routelogica de meest passende governancekeuze.`;
+    }
+    return copy;
+  }
+  return {naam:niveau+' · '+stijl,beschrijving:'Het profiel is bepaald op basis van de kwaliteit van de governancekeuzes en de balans tussen de vier scorepijlers.',sterk:'Sterk: het MT maakt bewuste afwegingen over het passende sturingsniveau.',aandachtspunt:'Reflectievraag: bij welke keuzes was mandaat, samenhang of benodigde informatie doorslaggevend?'};
 }
 function renderEndScreen(){
   const e=document.getElementById('endScreen'),g=document.getElementById('endGrid');if(!e||!g)return;

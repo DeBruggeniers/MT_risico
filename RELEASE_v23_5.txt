@@ -1,0 +1,14 @@
+MT Risicosimulatie v23.5 - governanceprofielen
+
+Belangrijkste inhoudelijke wijziging:
+- Profielen worden niet meer bepaald door hoe vaak A/B/C/D is gekozen.
+- Iedere gemaakte keuze wordt vergeleken met de vier mogelijke keuzes voor precies dat risico.
+- Alleen niet-passende keuzes dragen bij aan gedragslabels zoals controlerend, onderzoekend, ruimtegevend of bestuurlijk schakelend.
+- Veel C-keuzes leiden dus niet meer automatisch tot 'controlerend' wanneer C in die situaties passend was.
+- Een vrijwel perfecte route krijgt het profiel 'Uitstekend · Passend sturend'.
+- Bij een vrijwel perfecte route wordt geen geforceerd aandachtspunt gegeven, maar een reflectievraag.
+- Het label 'Kwetsbaar' is vervangen door 'In ontwikkeling'.
+- De vier feitelijke eindscores blijven ongewijzigd; 99 op Grip wordt dus niet cosmetisch naar 100 opgehoogd.
+- Cache busting verhoogd naar v23.5.
+
+Alle overige functionaliteit en de leesbare eindpagina uit v23.4 zijn behouden.
