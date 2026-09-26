@@ -151,3 +151,75 @@
   line-height:1.35;
   color:#667085;
 }
+
+
+/* =========================================================
+   v19 docentbediening
+   ========================================================= */
+
+/* Vier MT-vakken subtiel van elkaar onderscheiden */
+.mt-card.mt-1{background:#fbfdff}
+.mt-card.mt-2{background:#fffdf9}
+.mt-card.mt-3{background:#fbfffc}
+.mt-card.mt-4{background:#fdfbff}
+
+/* Zorg dat onderliggende onderdelen de subtiele kaartkleur niet volledig afdekken */
+.mt-card .mt-top,
+.mt-card .managed-wide,
+.mt-card .choice{
+  background:transparent;
+}
+
+/* Conditiebalk standaard rustig */
+.conditions-panel{
+  transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+
+/* Zodra een echte conditie/gebeurtenis actief is: duidelijke oranje signalering */
+.conditions-panel.has-event{
+  background:#fff3e8;
+  border-top-color:#f2b27f;
+  border-bottom-color:#f2b27f;
+  box-shadow:inset 4px 0 0 #ec7734;
+}
+.conditions-panel.has-event h4{
+  color:#9b451b;
+}
+.conditions-panel.has-event .conditions-content{
+  color:#5d321e;
+}
+
+/* Actieve MT-risico's benutten de volle breedte in twee kolommen */
+.managed-wide ul.managed-grid{
+  list-style:none;
+  margin:5px 0 0;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:18px;
+  row-gap:5px;
+}
+.managed-wide ul.managed-grid li{
+  position:relative;
+  margin:0;
+  padding:6px 9px 6px 20px;
+  border:1px solid #e2e7ef;
+  border-radius:7px;
+  background:rgba(255,255,255,.68);
+  font-size:10.5px;
+  line-height:1.3;
+}
+.managed-wide ul.managed-grid li::before{
+  content:"";
+  position:absolute;
+  left:9px;
+  top:11px;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#202c5e;
+}
+
+@media(max-width:900px){
+  .managed-wide ul.managed-grid{grid-template-columns:1fr}
+}

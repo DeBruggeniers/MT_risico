@@ -1,0 +1,10 @@
+MT Risicosimulatie v19
+
+Verbeteringen:
+- Cache busting toegevoegd aan CSS en JavaScript in docent- én telefoonweergave.
+- game-data.json krijgt een nieuwe versieparameter.
+- Condities/gebeurtenissen lichten oranje op zodra er daadwerkelijk een conditie of gebeurtenis actief is.
+- De vier MT-vakken hebben elk een subtiel verschillende lichte achtergrondkleur.
+- Actieve MT-risico's worden in twee kolommen weergegeven zodat de beschikbare breedte beter wordt benut.
+- Op smallere schermen schakelt de risicolijst automatisch terug naar één kolom.
+- Bestaande start-, QR-, Supabase-, score-, fullscreen- en telefoonfunctionaliteit behouden.
