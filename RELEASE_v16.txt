@@ -1,0 +1,13 @@
+MT Risicosimulatie v16 - compacte docentbediening
+
+Nieuw:
+- Volledige risicobeschrijving verwijderd uit de vier MT-vakken op de docentbediening.
+- Telefoonweergave blijft de volledige risicobeschrijving, onzekere gebeurtenis, condities, risicoprofiel, scores en actieve MT-risico's tonen.
+- Eén brede risicobalk boven de vier MT-vakken met:
+  * risiconummer en titel
+  * afzender
+  * risico per bedrijfswaarde
+- Als MT's door routekeuzes verschillende varianten zien, toont de bovenbalk automatisch vier compacte MT-varianten.
+- Per MT-vak een sessieteller voor hoe vaak A, B, C en D zijn gekozen.
+- Fullscreen-knop toegevoegd aan de docentbediening.
+- Startscherm, QR-codes, Supabase-koppeling en scorelogica uit v15 behouden.

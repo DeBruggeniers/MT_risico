@@ -18,3 +18,33 @@
 .play-icon{margin-right:12px}
 @media(max-width:1000px){.start-teams{grid-template-columns:1fr;gap:12px}.start-team img{height:180px}.start-inner{justify-content:flex-start}.start-screen{align-items:flex-start}.start-title{margin-top:10px}}
 @media(max-width:600px){.start-team img{display:none}.start-team{justify-content:center}.start-teams{grid-template-columns:1fr 1fr}.start-qr-card{width:150px;flex-basis:150px}.start-qr img,.start-qr canvas{width:115px!important;height:115px!important}.start-button{font-size:18px;padding:15px 28px}}
+
+/* v16 compacte docentbediening */
+.round-risk-bar{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 9px #0000000d;margin-bottom:14px;overflow:hidden}
+.round-risk-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 14px;background:#f8f9fb;border-bottom:1px solid var(--border)}
+.round-risk-head strong{color:var(--navy);font-size:14px}
+.round-risk-head span{font-size:10px;color:#667085}
+.round-risk-content{padding:12px 14px}
+.round-risk-common{display:grid;grid-template-columns:minmax(240px,1.5fr) minmax(140px,.7fr) minmax(420px,2.3fr);gap:18px;align-items:center}
+.round-risk-title{font-size:18px;font-weight:800;color:var(--navy)}
+.round-risk-sender{font-size:12px}.round-risk-sender strong{display:block;color:#667085;font-size:9px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.round-risk-profile{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.round-risk-profile .risk-pill{padding:5px 6px}.round-risk-profile .risk-pill span{font-size:9px}.round-risk-profile .risk-pill strong{font-size:11px}
+.round-risk-variants{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.round-variant{border:1px solid var(--border);border-radius:10px;padding:9px;background:#fbfcfd}
+.round-variant h4{margin:0 0 5px;color:var(--navy);font-size:12px}
+.round-variant .variant-title{font-size:11px;font-weight:700;line-height:1.25;margin-bottom:5px}
+.round-variant .variant-sender{font-size:9px;color:#667085;margin-bottom:6px}
+.round-variant .round-risk-profile{grid-template-columns:repeat(5,1fr);gap:3px}
+.round-variant .risk-pill{padding:3px 2px;border-radius:6px}.round-variant .risk-pill span{font-size:7px}.round-variant .risk-pill strong{font-size:8px}
+.mt-card .risk{display:none}
+.body{grid-template-columns:1.15fr .85fr;padding:12px 14px 8px}
+.choice{padding:6px 14px 12px}
+.choice-history{padding:0 14px 10px}
+.choice-history h4{font-size:10px;margin:0 0 5px;color:var(--navy)}
+.choice-counts{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.choice-count{display:flex;align-items:center;justify-content:space-between;background:#f7f8fa;border:1px solid #eceef2;border-radius:7px;padding:5px 8px;font-size:10px}
+.choice-count b{font-size:12px;color:var(--navy)}
+.mt-head{padding:10px 14px}.mt-head h2{font-size:18px}
+@media(max-width:1100px){.round-risk-common{grid-template-columns:1fr}.round-risk-variants{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.round-risk-variants{grid-template-columns:1fr}.round-risk-profile{grid-template-columns:repeat(5,1fr)}}
