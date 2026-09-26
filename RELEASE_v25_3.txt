@@ -1,0 +1,7 @@
+MT Risicosimulatie v25.3
+
+Kleine UI-aanpassing op basis van v25.2:
+- Knop 'Opdracht afronden' hernoemd naar 'Naar eindresultaat'.
+- Knop verplaatst tussen 'Ongedaan maken' en 'Reset spel'.
+- Werking van vroegtijdig afronden en overige functionaliteit ongewijzigd.
+- Cache busting verhoogd naar v25.3.
