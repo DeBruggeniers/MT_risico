@@ -1,0 +1,9 @@
+MT Risicosimulatie v23.2
+- Scorelogica gevalideerd met 1.000 realistische MT's plus vijf extreme strategieën.
+- Extreme strategieën worden duidelijk afgestraft: altijd A 44,0 gemiddeld; altijd B 70,25; altijd C 59,75; altijd D 55,75; beste route 98,0.
+- 25 statistische clusters vervangen door 25 inhoudelijk uitlegbare profielen.
+- Model: 5 prestatieniveaus x 5 governance-stijlen.
+- Prestatieniveaus zijn gekalibreerd op percentielen uit de 1.000 simulaties.
+- Governance-stijl wordt bepaald door betekenisvolle scoreverschillen en dominante A/B/C/D-reflexen.
+- Geen aparte profieltekst meer voor minieme scoreverschillen zonder inhoudelijke betekenis.
+- Cache busting v23.2.

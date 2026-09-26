@@ -1,9 +1,18 @@
-const STORE='mt-risk-sim-v23-1';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
+const STORE='mt-risk-sim-v23-3';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
 if(window.supabase&&window.SUPABASE_CONFIG){sb=window.supabase.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.publishableKey);}
 const labels={A:'Terugleggen bij de afzender',B:'Aanvullende informatie opvragen',C:'Opnemen als MT-risico',D:'Escaleren naar bestuur'};
 const scoreNames={grip:'Grip op risico\'s',eig:'Eigenaarschap & vertrouwen',uit:'Uitvoerbaarheid',strat:'Strategische slagkracht'};
 const riskFields=[['Bereikbaarheid','Risico_Bereikbaarheid'],['Leefbaarheid','Risico_Leefbaarheid'],['Veiligheid','Risico_Veiligheid'],['Imago','Risico_Imago'],['Kosten','Risico_Kosten']];
-async function boot(){DATA=await fetch('game-data.json?v=23.1').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=23.1').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();render();await syncAllToSupabase();}
+async function boot(){DATA=await fetch('game-data.json?v=23.3').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=23.3').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
+if(typeof state.finished!=='boolean')state.finished=false;
+if(!Array.isArray(state.mts)||state.mts.length!==4)state=fresh();
+for(const mt of state.mts){
+  if(!Array.isArray(mt.history))mt.history=[];
+  if(!Array.isArray(mt.managed))mt.managed=[];
+  if(!Array.isArray(mt.events))mt.events=[];
+  if(!mt.scores)mt.scores={grip:60,eig:60,uit:60,strat:60};
+}
+render();await syncAllToSupabase();}
 function fresh(){let starts={grip:+DATA.config["Startscore Grip op risico's"]||70,eig:+DATA.config['Startscore Eigenaarschap & vertrouwen']||70,uit:+DATA.config['Startscore Uitvoerbaarheid']||70,strat:+DATA.config['Startscore Strategische slagkracht']||70};return{started:false,finished:false,round:1,mts:[1,2,3,4].map(i=>({id:i,name:`MT ${i}`,scores:{...starts},budget:+DATA.config['Startbudget kEUR']||10000,cap:+DATA.config['Startcapaciteit %']||100,current:'R1.1_START',line:1,step:1,managed:[],history:[],counters:{MICRO:0,ANALYSE:0,ESCAL:0,PREM_ESCAL:0,AFHOUD:0,GOOD_GOV:0},triggered:[],events:[],chosen:false}))};}
 function load(){try{return JSON.parse(localStorage.getItem(STORE))}catch(e){return null}}function save(){localStorage.setItem(STORE,JSON.stringify(state))}function clamp(x){return Math.max(0,Math.min(100,x))}function scen(id){return DATA.scenarios.find(x=>x.Scenario_ID===id)}function effect(risk,ch){return DATA.effects.find(x=>x.Risico_ID===risk&&x.Keuze===ch)}function route(risk,ch){return DATA.routes.find(x=>x.Huidig_risico===risk&&x.Keuze===ch)}
 function riskProfile(s){if(!s)return'';return `<div class="risk-profile">${riskFields.map(([label,key])=>`<div class="risk-pill risk-${String(s[key]||'').toLowerCase()}"><span>${label}</span><strong>${esc(s[key]||'-')}</strong></div>`).join('')}</div>`}
@@ -45,17 +54,15 @@ function endVector(mt){
 }
 function profileFor(mt){
   if(!PROFILE_DATA)return null;
-  const v=endVector(mt), f=PROFILE_DATA.features;
-  let best=null,bestD=Infinity;
-  for(const p of PROFILE_DATA.profiles){
-    let d=0;
-    for(const k of f){
-      const sd=PROFILE_DATA.std[k]||1;
-      d+=Math.pow((v[k]-p.centrum[k])/sd,2);
-    }
-    if(d<bestD){bestD=d;best=p}
-  }
-  return best;
+  const v=endVector(mt);
+  const avg=(v.grip+v.eigenaarschap+v.uitvoerbaarheid+v.strategisch)/4;
+  let niveau=avg<80.5?'Kwetsbaar':avg<84.5?'Ontwikkelend':avg<89?'Stevig':avg<92.5?'Sterk':'Zeer sterk';
+  let stijl='Evenwichtig';
+  if(v.keuze_D>=5) stijl='Escalerend';
+  else if(v.keuze_B>=6) stijl='Onderzoekend';
+  else if(v.keuze_C>=7 || (v.grip-v.eigenaarschap)>=10 || (v.grip-v.strategisch)>=13) stijl='Controlerend';
+  else if(v.keuze_A>=6 || (v.eigenaarschap-v.grip)>=8) stijl='Ruimtegevend';
+  return PROFILE_DATA.profiles.find(p=>p.niveau===niveau&&p.stijl===stijl)||null;
 }
 function renderEndScreen(){
   const e=document.getElementById('endScreen'),g=document.getElementById('endGrid');if(!e||!g)return;
@@ -101,6 +108,29 @@ function render(){
 async function syncMtToSupabase(mt){if(!sb)return;let s=state.started?(scen(mt.current)||DATA.scenarios.find(x=>x.Risico_ID===`R${mt.line}.${mt.step}`)):null;let row={ronde:state.started?state.round:0,scenario_id:state.started?(mt.current||null):null,risico_code:state.started?(s?.Risico_ID||'Einde'):'',risico_titel:state.started?(s?.Titel||'Risicolijn afgerond'):'Wachten op de start van de simulatie',risico_beschrijving:state.started?riskText(s):JSON.stringify({context:'Jullie zijn verbonden. De eerste risicokaart verschijnt zodra de docent de simulatie start.',event:'',risks:{}}),afzender:state.started?(s?.Afzender||'-'):'-',risico_eigenaar:JSON.stringify(state.started?(mt.events||[]):[]),score_grip:mt.scores.grip,score_eigenaarschap:mt.scores.eig,score_uitvoerbaarheid:mt.scores.uit,score_strategisch:mt.scores.strat,actieve_mt_risicos:state.started?mt.managed:[],updated_at:new Date().toISOString()};let {error}=await sb.from('mt_state').update(row).eq('mt_id',mt.id);if(error)console.error('Supabase sync MT '+mt.id,error);}
 async function syncAllToSupabase(){if(!sb)return;await Promise.all(state.mts.map(syncMtToSupabase));}
 function publishPublicState(){syncAllToSupabase();}
+
+function lastScoreDelta(mt,key){
+  const hist=Array.isArray(mt.history)?mt.history:[];
+  if(!hist.length)return null;
+  const h=hist[hist.length-1];
+  const aliases={
+    grip:['grip','score_grip'],
+    eig:['eig','score_eig','eigenaarschap'],
+    uit:['uit','score_uit','uitvoerbaarheid'],
+    strat:['strat','score_strat','strategisch']
+  };
+  for(const k of (aliases[key]||[key])){
+    if(h.delta && Number.isFinite(Number(h.delta[k]))) return Number(h.delta[k]);
+    if(h.before && h.after && Number.isFinite(Number(h.before[k])) && Number.isFinite(Number(h.after[k])))
+      return Number(h.after[k])-Number(h.before[k]);
+  }
+  return null;
+}
+function scoreWithDelta(key,val,mt){
+  const d=lastScoreDelta(mt,key);
+  const delta=(d===null||d===0)?'':`<span class="score-delta ${d>0?'up':'down'}">${d>0?'+':''}${d}</span>`;
+  return score(key,val).replace('</div><div class="track">',`${delta}</div><div class="track">`);
+}
 function score(k,v){let band=v>=80?'Goed':v>=60?'Redelijk':v>=40?'Onder druk':'Kritiek';return `<div class="score-chip"><div class="score-top"><span>${scoreNames[k]}</span><strong>${v}</strong></div><div class="track"><div class="fill" style="width:${v}%"></div></div><small>${band}</small></div>`}
 window.preview=function(id,ch){let mt=state.mts.find(x=>x.id===id);if(mt.chosen)return;let s=scen(mt.current),e=effect(s.Risico_ID,ch);if(!e)return alert('Geen besluiteffect gevonden.');let box=document.getElementById('modalBox');box.innerHTML=`<div class="eyebrow">${mt.name} · ${s.Risico_ID} · keuze ${ch}</div><h2>${labels[ch]}</h2><p>${esc(e.Gevolgbeschrijving||'')}</p><div class="effect-grid">${delta('Grip',e.Delta_grip)}${delta('Eigenaarschap',e.Delta_eigenaarschap_vertrouwen)}${delta('Uitvoerbaarheid',e.Delta_uitvoerbaarheid)}${delta('Strategische slagkracht',e.Delta_strategische_slagkracht)}</div><p><strong>Budget:</strong> ${signed(e.Budget_mutatie_kEUR)} k€ &nbsp; <strong>Capaciteit:</strong> ${signed(e.Capaciteit_mutatie_pct)}%</p><div class="modal-actions"><button class="secondary" onclick="closeModal()">Annuleren</button><button class="primary" onclick="commit(${id},'${ch}')">Besluit verwerken</button></div>`;document.getElementById('modal').classList.add('show')}
 function delta(n,v){v=+v||0;return `<div class="pill">${n}<strong>${signed(v)}</strong></div>`}function signed(v){v=+v||0;return v>0?`+${v}`:`${v}`}

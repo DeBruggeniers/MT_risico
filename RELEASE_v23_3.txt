@@ -1,0 +1,13 @@
+MT Risicosimulatie v23.3 - dashboard fix
+
+Oorzaak van het probleem:
+1. render() riep scoreWithDelta() aan, maar deze functie ontbrak. Daardoor stopte JavaScript tijdens het opbouwen van het eerste MT-vak.
+2. De class 'hidden' was alleen gedefinieerd voor het startscherm. Daardoor was de nieuwe eindresultaatsectie al vanaf ronde 1 zichtbaar.
+
+Hersteld:
+- scoreWithDelta() en lastScoreDelta() toegevoegd.
+- generieke .hidden-regel toegevoegd.
+- eindresultaat is alleen zichtbaar wanneer state.finished=true.
+- opgeslagen oudere browserstatus wordt defensief gemigreerd.
+- alle functies uit v23.2, inclusief 25 gevalideerde MT-profielen, blijven behouden.
+- cache busting verhoogd naar v23.3.
