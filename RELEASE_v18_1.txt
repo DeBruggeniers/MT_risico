@@ -1,0 +1,12 @@
+MT Risicosimulatie v18.1 - herstel
+
+Hersteld:
+- MT-vakken renderen weer correct.
+- Staafdiagram A/B/C/D werkt.
+- Condities/gebeurtenissen worden correct weergegeven.
+- Gewenste v18-indeling behouden:
+  linksboven scores;
+  rechtsboven keuzehistorie;
+  daaronder condities/gebeurtenissen;
+  daaronder actieve MT-risico's;
+  onderaan keuzeknoppen.

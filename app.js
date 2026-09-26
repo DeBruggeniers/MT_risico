@@ -1,9 +1,9 @@
-const STORE='mt-risk-sim-v18';let DATA,state,undoStack=[];let sb=null;
+const STORE='mt-risk-sim-v18-1';let DATA,state,undoStack=[];let sb=null;
 if(window.supabase&&window.SUPABASE_CONFIG){sb=window.supabase.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.publishableKey);}
 const labels={A:'Terugleggen bij de afzender',B:'Aanvullende informatie opvragen',C:'Opnemen als MT-risico',D:'Escaleren naar bestuur'};
 const scoreNames={grip:'Grip op risico\'s',eig:'Eigenaarschap & vertrouwen',uit:'Uitvoerbaarheid',strat:'Strategische slagkracht'};
 const riskFields=[['Bereikbaarheid','Risico_Bereikbaarheid'],['Leefbaarheid','Risico_Leefbaarheid'],['Veiligheid','Risico_Veiligheid'],['Imago','Risico_Imago'],['Kosten','Risico_Kosten']];
-async function boot(){DATA=await fetch('game-data.json?v=18').then(r=>r.json());state=load()||fresh();render();await syncAllToSupabase();}
+async function boot(){DATA=await fetch('game-data.json?v=18.1').then(r=>r.json());state=load()||fresh();render();await syncAllToSupabase();}
 function fresh(){let starts={grip:+DATA.config["Startscore Grip op risico's"]||70,eig:+DATA.config['Startscore Eigenaarschap & vertrouwen']||70,uit:+DATA.config['Startscore Uitvoerbaarheid']||70,strat:+DATA.config['Startscore Strategische slagkracht']||70};return{started:false,round:1,mts:[1,2,3,4].map(i=>({id:i,name:`MT ${i}`,scores:{...starts},budget:+DATA.config['Startbudget kEUR']||10000,cap:+DATA.config['Startcapaciteit %']||100,current:'R1.1_START',line:1,step:1,managed:[],history:[],counters:{MICRO:0,ANALYSE:0,ESCAL:0,PREM_ESCAL:0,AFHOUD:0,GOOD_GOV:0},triggered:[],events:[],chosen:false}))};}
 function load(){try{return JSON.parse(localStorage.getItem(STORE))}catch(e){return null}}function save(){localStorage.setItem(STORE,JSON.stringify(state))}function clamp(x){return Math.max(0,Math.min(100,x))}function scen(id){return DATA.scenarios.find(x=>x.Scenario_ID===id)}function effect(risk,ch){return DATA.effects.find(x=>x.Risico_ID===risk&&x.Keuze===ch)}function route(risk,ch){return DATA.routes.find(x=>x.Huidig_risico===risk&&x.Keuze===ch)}
 function riskProfile(s){if(!s)return'';return `<div class="risk-profile">${riskFields.map(([label,key])=>`<div class="risk-pill risk-${String(s[key]||'').toLowerCase()}"><span>${label}</span><strong>${esc(s[key]||'-')}</strong></div>`).join('')}</div>`}
@@ -25,6 +25,16 @@ function renderRoundRiskBar(){
     body=`<div class="round-risk-variants">${items.map(x=>`<div class="round-variant"><h4>MT ${x.mt}</h4><div class="variant-title">${esc(x.risk)} · ${esc(x.title)}</div><div class="variant-sender">Afzender: ${esc(x.sender)}</div>${compactRiskProfile(x.s)}</div>`).join('')}</div>`;
   }
   el.innerHTML=`<div class="round-risk-head"><strong>Risico deze ronde</strong><span>Volledige risicobeschrijving staat op de telefoon van ieder MT</span></div><div class="round-risk-content">${body}</div>`;
+}
+
+function choiceBar(ch,count,total){
+  const pct=total>0?Math.round((count/total)*100):0;
+  return `<div class="choice-bar-row"><span class="bar-letter">${ch}</span><div class="bar-track"><div class="bar-fill bar-${ch.toLowerCase()}" style="width:${pct}%"></div></div><b>${count}</b></div>`;
+}
+function conditionsHtml(mt){
+  const events=Array.isArray(mt.events)?mt.events.filter(Boolean):[];
+  if(!events.length)return `<div class="empty">Nog geen aanvullende condities of gebeurtenissen.</div>`;
+  return `<ul>${events.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
 }
 function render(){
   const ss=document.getElementById('startScreen');if(ss)ss.classList.toggle('hidden',!!state.started);

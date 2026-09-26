@@ -142,3 +142,12 @@
 @media(max-width:1100px){
   .mt-top{grid-template-columns:1fr}
 }
+
+/* v18.1 herstel */
+.conditions-content > .empty{
+  margin:0;
+  padding:0;
+  font-size:11px;
+  line-height:1.35;
+  color:#667085;
+}
