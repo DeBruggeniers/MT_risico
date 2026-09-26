@@ -1,0 +1,509 @@
+{
+  "features": [
+    "grip",
+    "eigenaarschap",
+    "uitvoerbaarheid",
+    "strategisch",
+    "keuze_A",
+    "keuze_B",
+    "keuze_C",
+    "keuze_D"
+  ],
+  "mean": {
+    "grip": 93.103,
+    "eigenaarschap": 89.89,
+    "uitvoerbaarheid": 83.875,
+    "strategisch": 86.413,
+    "keuze_A": 3.367,
+    "keuze_B": 4.74,
+    "keuze_C": 4.828,
+    "keuze_D": 3.065
+  },
+  "std": {
+    "grip": 3.7008224879190146,
+    "eigenaarschap": 4.5935825888951864,
+    "uitvoerbaarheid": 5.582879502867991,
+    "strategisch": 6.20765382136971,
+    "keuze_A": 1.1720429534299008,
+    "keuze_B": 1.541030426297539,
+    "keuze_C": 1.5902656837600895,
+    "keuze_D": 1.2642679199336562
+  },
+  "profiles": [
+    {
+      "id": 1,
+      "cluster": 0,
+      "naam": "Onderzoekende beslisser",
+      "centrum": {
+        "grip": 95.1,
+        "eigenaarschap": 87.88,
+        "uitvoerbaarheid": 82.02,
+        "strategisch": 86.73,
+        "keuze_A": 1.44,
+        "keuze_B": 6.98,
+        "keuze_C": 4.61,
+        "keuze_D": 2.98
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder eigenaarschap en vertrouwen. Het keuze patroon laat zien dat het MT relatief vaak eerst aanvullende informatie vraagt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak eigenaarschap en vertrouwen; voorkom dat de voorkeursreflex voor keuze B automatisch wordt toegepast.",
+      "n": 41
+    },
+    {
+      "id": 2,
+      "cluster": 1,
+      "naam": "Actieve regisseur",
+      "centrum": {
+        "grip": 95.73,
+        "eigenaarschap": 91.29,
+        "uitvoerbaarheid": 87.06,
+        "strategisch": 88.8,
+        "keuze_A": 2.73,
+        "keuze_B": 4.55,
+        "keuze_C": 7.2,
+        "keuze_D": 1.51
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder eigenaarschap en vertrouwen. Het keuze patroon laat zien dat het MT relatief vaak risico's naar het MT trekt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak eigenaarschap en vertrouwen; voorkom dat de voorkeursreflex voor keuze C automatisch wordt toegepast.",
+      "n": 49
+    },
+    {
+      "id": 3,
+      "cluster": 2,
+      "naam": "Pragmatisch afwegend MT",
+      "centrum": {
+        "grip": 89.55,
+        "eigenaarschap": 90.87,
+        "uitvoerbaarheid": 83.77,
+        "strategisch": 85.77,
+        "keuze_A": 5.43,
+        "keuze_B": 3.72,
+        "keuze_C": 3.91,
+        "keuze_D": 2.94
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke eigenaarschap en vertrouwen zien en relatief minder grip op risico's. Het keuze patroon laat zien dat het MT relatief vaak verantwoordelijkheid bij de afzender laat. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Eigenaarschap en vertrouwen is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak grip op risico's; voorkom dat de voorkeursreflex voor keuze A automatisch wordt toegepast.",
+      "n": 47
+    },
+    {
+      "id": 4,
+      "cluster": 3,
+      "naam": "Operationeel belast MT",
+      "centrum": {
+        "grip": 85.06,
+        "eigenaarschap": 83.33,
+        "uitvoerbaarheid": 76.17,
+        "strategisch": 77.39,
+        "keuze_A": 5.06,
+        "keuze_B": 3.39,
+        "keuze_C": 5.83,
+        "keuze_D": 1.72
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke uitvoerbaarheid zien en relatief minder grip op risico's. Het keuze patroon laat zien dat het MT relatief vaak risico's naar het MT trekt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Uitvoerbaarheid is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak grip op risico's; voorkom dat de voorkeursreflex voor keuze C automatisch wordt toegepast.",
+      "n": 18
+    },
+    {
+      "id": 5,
+      "cluster": 4,
+      "naam": "Evenwichtig sterk MT",
+      "centrum": {
+        "grip": 97.19,
+        "eigenaarschap": 93.49,
+        "uitvoerbaarheid": 88.93,
+        "strategisch": 92.31,
+        "keuze_A": 2.57,
+        "keuze_B": 4.7,
+        "keuze_C": 5.1,
+        "keuze_D": 3.63
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder eigenaarschap en vertrouwen. Het keuze patroon laat zien dat het MT relatief vaak risico's naar het MT trekt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak eigenaarschap en vertrouwen; voorkom dat de voorkeursreflex voor keuze C automatisch wordt toegepast.",
+      "n": 67
+    },
+    {
+      "id": 6,
+      "cluster": 5,
+      "naam": "Regisserende overnemer",
+      "centrum": {
+        "grip": 93.17,
+        "eigenaarschap": 86.17,
+        "uitvoerbaarheid": 81.72,
+        "strategisch": 82.83,
+        "keuze_A": 2.22,
+        "keuze_B": 4.0,
+        "keuze_C": 6.81,
+        "keuze_D": 2.97
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder eigenaarschap en vertrouwen. Het keuze patroon laat zien dat het MT relatief vaak risico's naar het MT trekt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak eigenaarschap en vertrouwen; voorkom dat de voorkeursreflex voor keuze C automatisch wordt toegepast.",
+      "n": 36
+    },
+    {
+      "id": 7,
+      "cluster": 6,
+      "naam": "Pragmatisch afwegend MT - variant 2",
+      "centrum": {
+        "grip": 90.0,
+        "eigenaarschap": 88.46,
+        "uitvoerbaarheid": 79.86,
+        "strategisch": 83.54,
+        "keuze_A": 3.74,
+        "keuze_B": 5.89,
+        "keuze_C": 2.54,
+        "keuze_D": 3.83
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke eigenaarschap en vertrouwen zien en relatief minder grip op risico's. Het keuze patroon laat zien dat het MT relatief vaak eerst aanvullende informatie vraagt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Eigenaarschap en vertrouwen is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak grip op risico's; voorkom dat de voorkeursreflex voor keuze B automatisch wordt toegepast.",
+      "n": 35
+    },
+    {
+      "id": 8,
+      "cluster": 7,
+      "naam": "Snelle escalator",
+      "centrum": {
+        "grip": 91.14,
+        "eigenaarschap": 84.23,
+        "uitvoerbaarheid": 78.26,
+        "strategisch": 78.57,
+        "keuze_A": 1.86,
+        "keuze_B": 4.91,
+        "keuze_C": 4.23,
+        "keuze_D": 5.0
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder strategische slagkracht. Het keuze patroon laat zien dat het MT relatief vaak bestuurlijke escalatie inzet. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak strategische slagkracht; voorkom dat de voorkeursreflex voor keuze D automatisch wordt toegepast.",
+      "n": 35
+    },
+    {
+      "id": 9,
+      "cluster": 8,
+      "naam": "Evenwichtig sterk MT - variant 2",
+      "centrum": {
+        "grip": 95.06,
+        "eigenaarschap": 95.17,
+        "uitvoerbaarheid": 88.73,
+        "strategisch": 92.41,
+        "keuze_A": 4.44,
+        "keuze_B": 4.14,
+        "keuze_C": 3.87,
+        "keuze_D": 3.54
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke eigenaarschap en vertrouwen zien en relatief minder grip op risico's. Het keuze patroon laat zien dat het MT relatief vaak verantwoordelijkheid bij de afzender laat. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Eigenaarschap en vertrouwen is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak grip op risico's; voorkom dat de voorkeursreflex voor keuze A automatisch wordt toegepast.",
+      "n": 63
+    },
+    {
+      "id": 10,
+      "cluster": 9,
+      "naam": "Actieve regisseur - variant 2",
+      "centrum": {
+        "grip": 91.1,
+        "eigenaarschap": 90.27,
+        "uitvoerbaarheid": 84.73,
+        "strategisch": 85.63,
+        "keuze_A": 4.53,
+        "keuze_B": 2.87,
+        "keuze_C": 6.97,
+        "keuze_D": 1.63
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke uitvoerbaarheid zien en relatief minder grip op risico's. Het keuze patroon laat zien dat het MT relatief vaak risico's naar het MT trekt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Uitvoerbaarheid is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak grip op risico's; voorkom dat de voorkeursreflex voor keuze C automatisch wordt toegepast.",
+      "n": 30
+    },
+    {
+      "id": 11,
+      "cluster": 10,
+      "naam": "Pragmatisch afwegend MT - variant 3",
+      "centrum": {
+        "grip": 94.3,
+        "eigenaarschap": 90.85,
+        "uitvoerbaarheid": 85.76,
+        "strategisch": 88.15,
+        "keuze_A": 3.3,
+        "keuze_B": 3.26,
+        "keuze_C": 5.57,
+        "keuze_D": 3.87
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke uitvoerbaarheid zien en relatief minder eigenaarschap en vertrouwen. Het keuze patroon laat zien dat het MT relatief vaak risico's naar het MT trekt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Uitvoerbaarheid is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak eigenaarschap en vertrouwen; voorkom dat de voorkeursreflex voor keuze C automatisch wordt toegepast.",
+      "n": 46
+    },
+    {
+      "id": 12,
+      "cluster": 11,
+      "naam": "Strategisch selectief MT",
+      "centrum": {
+        "grip": 97.31,
+        "eigenaarschap": 95.84,
+        "uitvoerbaarheid": 91.53,
+        "strategisch": 93.52,
+        "keuze_A": 3.93,
+        "keuze_B": 3.9,
+        "keuze_C": 6.21,
+        "keuze_D": 1.97
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke uitvoerbaarheid zien en relatief minder grip op risico's. Het keuze patroon laat zien dat het MT relatief vaak risico's naar het MT trekt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Uitvoerbaarheid is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak grip op risico's; voorkom dat de voorkeursreflex voor keuze C automatisch wordt toegepast.",
+      "n": 58
+    },
+    {
+      "id": 13,
+      "cluster": 12,
+      "naam": "Onderzoekende beslisser - variant 2",
+      "centrum": {
+        "grip": 92.26,
+        "eigenaarschap": 87.69,
+        "uitvoerbaarheid": 79.49,
+        "strategisch": 84.69,
+        "keuze_A": 3.03,
+        "keuze_B": 7.86,
+        "keuze_C": 2.6,
+        "keuze_D": 2.51
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder uitvoerbaarheid. Het keuze patroon laat zien dat het MT relatief vaak eerst aanvullende informatie vraagt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak uitvoerbaarheid; voorkom dat de voorkeursreflex voor keuze B automatisch wordt toegepast.",
+      "n": 35
+    },
+    {
+      "id": 14,
+      "cluster": 13,
+      "naam": "Pragmatisch afwegend MT - variant 4",
+      "centrum": {
+        "grip": 94.0,
+        "eigenaarschap": 89.25,
+        "uitvoerbaarheid": 83.33,
+        "strategisch": 86.58,
+        "keuze_A": 2.8,
+        "keuze_B": 5.62,
+        "keuze_C": 5.15,
+        "keuze_D": 2.44
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder eigenaarschap en vertrouwen. Het keuze patroon laat zien dat het MT relatief vaak eerst aanvullende informatie vraagt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak eigenaarschap en vertrouwen; voorkom dat de voorkeursreflex voor keuze B automatisch wordt toegepast.",
+      "n": 55
+    },
+    {
+      "id": 15,
+      "cluster": 14,
+      "naam": "Snelle escalator - variant 2",
+      "centrum": {
+        "grip": 86.82,
+        "eigenaarschap": 86.21,
+        "uitvoerbaarheid": 77.14,
+        "strategisch": 77.68,
+        "keuze_A": 4.11,
+        "keuze_B": 3.5,
+        "keuze_C": 3.14,
+        "keuze_D": 5.25
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke eigenaarschap en vertrouwen zien en relatief minder grip op risico's. Het keuze patroon laat zien dat het MT relatief vaak bestuurlijke escalatie inzet. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Eigenaarschap en vertrouwen is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak grip op risico's; voorkom dat de voorkeursreflex voor keuze D automatisch wordt toegepast.",
+      "n": 28
+    },
+    {
+      "id": 16,
+      "cluster": 15,
+      "naam": "Operationeel belast MT - variant 2",
+      "centrum": {
+        "grip": 92.19,
+        "eigenaarschap": 79.86,
+        "uitvoerbaarheid": 74.95,
+        "strategisch": 75.81,
+        "keuze_A": 1.29,
+        "keuze_B": 5.86,
+        "keuze_C": 6.29,
+        "keuze_D": 2.57
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder eigenaarschap en vertrouwen. Het keuze patroon laat zien dat het MT relatief vaak risico's naar het MT trekt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak eigenaarschap en vertrouwen; voorkom dat de voorkeursreflex voor keuze C automatisch wordt toegepast.",
+      "n": 21
+    },
+    {
+      "id": 17,
+      "cluster": 16,
+      "naam": "Onderzoekende beslisser - variant 3",
+      "centrum": {
+        "grip": 96.75,
+        "eigenaarschap": 93.33,
+        "uitvoerbaarheid": 87.54,
+        "strategisch": 91.42,
+        "keuze_A": 2.88,
+        "keuze_B": 6.46,
+        "keuze_C": 4.4,
+        "keuze_D": 2.25
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder uitvoerbaarheid. Het keuze patroon laat zien dat het MT relatief vaak eerst aanvullende informatie vraagt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak uitvoerbaarheid; voorkom dat de voorkeursreflex voor keuze B automatisch wordt toegepast.",
+      "n": 52
+    },
+    {
+      "id": 18,
+      "cluster": 17,
+      "naam": "Operationeel belast MT - variant 3",
+      "centrum": {
+        "grip": 89.73,
+        "eigenaarschap": 85.09,
+        "uitvoerbaarheid": 77.89,
+        "strategisch": 80.18,
+        "keuze_A": 3.58,
+        "keuze_B": 5.2,
+        "keuze_C": 5.02,
+        "keuze_D": 2.2
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder uitvoerbaarheid. Het keuze patroon laat zien dat het MT relatief vaak eerst aanvullende informatie vraagt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak uitvoerbaarheid; voorkom dat de voorkeursreflex voor keuze B automatisch wordt toegepast.",
+      "n": 45
+    },
+    {
+      "id": 19,
+      "cluster": 18,
+      "naam": "Onderzoekende beslisser - variant 4",
+      "centrum": {
+        "grip": 94.92,
+        "eigenaarschap": 92.81,
+        "uitvoerbaarheid": 85.72,
+        "strategisch": 91.22,
+        "keuze_A": 3.28,
+        "keuze_B": 6.42,
+        "keuze_C": 2.42,
+        "keuze_D": 3.89
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke strategische slagkracht zien en relatief minder uitvoerbaarheid. Het keuze patroon laat zien dat het MT relatief vaak eerst aanvullende informatie vraagt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Strategische slagkracht is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak uitvoerbaarheid; voorkom dat de voorkeursreflex voor keuze B automatisch wordt toegepast.",
+      "n": 36
+    },
+    {
+      "id": 20,
+      "cluster": 19,
+      "naam": "Operationeel belast MT - variant 4",
+      "centrum": {
+        "grip": 84.8,
+        "eigenaarschap": 81.8,
+        "uitvoerbaarheid": 71.92,
+        "strategisch": 74.2,
+        "keuze_A": 4.12,
+        "keuze_B": 6.04,
+        "keuze_C": 2.92,
+        "keuze_D": 2.92
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke eigenaarschap en vertrouwen zien en relatief minder grip op risico's. Het keuze patroon laat zien dat het MT relatief vaak eerst aanvullende informatie vraagt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Eigenaarschap en vertrouwen is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak grip op risico's; voorkom dat de voorkeursreflex voor keuze B automatisch wordt toegepast.",
+      "n": 25
+    },
+    {
+      "id": 21,
+      "cluster": 20,
+      "naam": "Pragmatisch afwegend MT - variant 5",
+      "centrum": {
+        "grip": 92.67,
+        "eigenaarschap": 91.08,
+        "uitvoerbaarheid": 84.71,
+        "strategisch": 87.39,
+        "keuze_A": 4.31,
+        "keuze_B": 5.04,
+        "keuze_C": 4.8,
+        "keuze_D": 1.84
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke eigenaarschap en vertrouwen zien en relatief minder grip op risico's. Het keuze patroon laat zien dat het MT relatief vaak eerst aanvullende informatie vraagt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Eigenaarschap en vertrouwen is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak grip op risico's; voorkom dat de voorkeursreflex voor keuze B automatisch wordt toegepast.",
+      "n": 51
+    },
+    {
+      "id": 22,
+      "cluster": 21,
+      "naam": "Bestuurlijk schakelend MT",
+      "centrum": {
+        "grip": 92.76,
+        "eigenaarschap": 89.16,
+        "uitvoerbaarheid": 82.89,
+        "strategisch": 85.5,
+        "keuze_A": 2.79,
+        "keuze_B": 4.5,
+        "keuze_C": 3.95,
+        "keuze_D": 4.76
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder uitvoerbaarheid. Het keuze patroon laat zien dat het MT relatief vaak bestuurlijke escalatie inzet. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak uitvoerbaarheid; voorkom dat de voorkeursreflex voor keuze D automatisch wordt toegepast.",
+      "n": 38
+    },
+    {
+      "id": 23,
+      "cluster": 22,
+      "naam": "Actieve regisseur - variant 3",
+      "centrum": {
+        "grip": 96.49,
+        "eigenaarschap": 95.04,
+        "uitvoerbaarheid": 92.64,
+        "strategisch": 94.42,
+        "keuze_A": 3.76,
+        "keuze_B": 2.29,
+        "keuze_C": 6.62,
+        "keuze_D": 3.33
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke uitvoerbaarheid zien en relatief minder grip op risico's. Het keuze patroon laat zien dat het MT relatief vaak risico's naar het MT trekt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Uitvoerbaarheid is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak grip op risico's; voorkom dat de voorkeursreflex voor keuze C automatisch wordt toegepast.",
+      "n": 45
+    },
+    {
+      "id": 24,
+      "cluster": 23,
+      "naam": "Zoekend MT",
+      "centrum": {
+        "grip": 89.38,
+        "eigenaarschap": 87.5,
+        "uitvoerbaarheid": 80.91,
+        "strategisch": 80.82,
+        "keuze_A": 3.97,
+        "keuze_B": 3.0,
+        "keuze_C": 4.88,
+        "keuze_D": 4.15
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke eigenaarschap en vertrouwen zien en relatief minder grip op risico's. Het keuze patroon laat zien dat het MT relatief vaak risico's naar het MT trekt. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Eigenaarschap en vertrouwen is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak grip op risico's; voorkom dat de voorkeursreflex voor keuze C automatisch wordt toegepast.",
+      "n": 34
+    },
+    {
+      "id": 25,
+      "cluster": 24,
+      "naam": "Snelle escalator - variant 3",
+      "centrum": {
+        "grip": 85.9,
+        "eigenaarschap": 76.9,
+        "uitvoerbaarheid": 68.8,
+        "strategisch": 67.4,
+        "keuze_A": 2.0,
+        "keuze_B": 4.5,
+        "keuze_C": 3.6,
+        "keuze_D": 5.9
+      },
+      "beschrijving": "Dit MT-profiel laat vooral sterke grip op risico's zien en relatief minder strategische slagkracht. Het keuze patroon laat zien dat het MT relatief vaak bestuurlijke escalatie inzet. De combinatie zegt meer dan de gemiddelde score: de kernvraag is of deze sturingsstijl past bij mandaat, samenhang en benodigde besluitvorming.",
+      "sterk": "Sterk: Grip op risico's is in dit profiel bovengemiddeld ontwikkeld.",
+      "aandachtspunt": "Aandachtspunt: bewaak strategische slagkracht; voorkom dat de voorkeursreflex voor keuze D automatisch wordt toegepast.",
+      "n": 10
+    }
+  ]
+}

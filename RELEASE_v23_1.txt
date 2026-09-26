@@ -1,0 +1,16 @@
+MT Risicosimulatie v23.1 - gecorrigeerd
+
+Herstel:
+- Rendering van MT 1 t/m MT 4 gehard zodat de vier MT-vakken vanaf ronde 1 zichtbaar blijven.
+- choiceCounts-helper expliciet toegevoegd voor keuzehistorie en eindresultaten.
+- Scorehistorie compatibel gemaakt met oudere opgeslagen browserstatus.
+- Laden van mt-profiles.json kan de docentbediening niet meer blokkeren.
+- HTML-opbouw van het risicoprofiel gecorrigeerd.
+- Cache busting verhoogd naar v23.1.
+
+Behouden:
+- Alle docentfuncties uit v22.
+- Vier MT-kleuren/kaders en vaste uitlijning van keuzeknoppen.
+- Condities/gebeurtenissen en actieve MT-risico's.
+- Eindresultaten na laatste risico.
+- 25 empirische MT-profielen uit 1.000 simulaties.

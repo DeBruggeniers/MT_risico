@@ -1,0 +1,8 @@
+MT Risicosimulatie v23
+- 1.000 realistische MT-sessies gesimuleerd op de bestaande score-, conditie- en routelogica.
+- 25 natuurlijke profielen bepaald met clustering op vier eindscores plus A/B/C/D-keuzepatroon.
+- Na het 16e risico verschijnt automatisch een eindresultatenpagina.
+- Per MT: vier eindscores, A/B/C/D-verdeling, profielnaam, duiding, sterk punt en aandachtspunt.
+- Profieltoekenning gebeurt op afstand tot de 25 empirische profielcentra.
+- Analysewerkboek met alle 1.000 simulaties en profielen is meegeleverd.
+- Cache busting v23.

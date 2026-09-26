@@ -358,3 +358,11 @@
 .managed-wide.is-empty h4{margin-bottom:2px}
 .managed-wide.is-empty .empty{font-size:9.5px;color:#8a94a3}
 @media(max-width:1100px){.round-head-right{align-items:flex-end;flex-direction:column;gap:4px}.risk-profile-wrap{grid-template-columns:1fr}}
+
+/* v23 eindresultaten */
+.end-screen{padding:4px 0 20px}.end-title{text-align:center;padding:16px 10px 18px}.end-title span{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#667085}.end-title h1{margin:4px 0 5px;color:var(--navy);font-size:26px}.end-title p{margin:0;color:#667085;font-size:11px}
+.end-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.end-card{background:#fff;border:2px solid #d9dee7;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px #0000000b}.end-card-head{display:flex;align-items:center;justify-content:space-between;padding:11px 14px}.end-card-head h2{margin:0;font-size:18px;color:var(--navy)}.end-card-head span{font-weight:800;font-size:12px;color:var(--navy)}
+.end-card.mt-1{border-color:#8ebee9}.end-card.mt-1 .end-card-head{background:#e1f0ff}.end-card.mt-2{border-color:#92c99f}.end-card.mt-2 .end-card-head{background:#e3f4e7}.end-card.mt-3{border-color:#bea0d7}.end-card.mt-3 .end-card-head{background:#eee3f7}.end-card.mt-4{border-color:#e6ad78}.end-card.mt-4 .end-card-head{background:#ffe9d5}
+.end-scores{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:12px 14px 8px}.end-scores div{background:#f7f8fa;border:1px solid #e8ebf0;border-radius:8px;padding:7px;text-align:center}.end-scores small{display:block;font-size:8px;color:#667085}.end-scores strong{display:block;font-size:21px;color:var(--navy);margin-top:2px}
+.end-choices{display:flex;gap:6px;padding:0 14px 9px}.end-choices span{background:#f1f3f6;border-radius:999px;padding:4px 9px;font-size:9px}.end-card p{font-size:11px;line-height:1.45;margin:0;padding:10px 14px;border-top:1px solid #eceff3}.end-insight{font-size:10.5px;line-height:1.4;margin:0 14px 8px;padding:8px 10px;border-radius:8px}.end-insight.good{background:#eef8f1;color:#285f38}.end-insight.attention{background:#fff4e8;color:#7a481f;margin-bottom:13px}
+@media(max-width:1000px){.end-grid{grid-template-columns:1fr}}
