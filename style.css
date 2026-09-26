@@ -48,3 +48,15 @@
 .mt-head{padding:10px 14px}.mt-head h2{font-size:18px}
 @media(max-width:1100px){.round-risk-common{grid-template-columns:1fr}.round-risk-variants{grid-template-columns:1fr 1fr}}
 @media(max-width:650px){.round-risk-variants{grid-template-columns:1fr}.round-risk-profile{grid-template-columns:repeat(5,1fr)}}
+\n/* v17 condities en keuze-staafdiagram */
+.events-panel{padding:0 14px 10px;grid-column:1/-1}
+.events-panel h4,.choice-history h4{font-size:10px;margin:0 0 6px;color:var(--navy)}
+.events-panel ul{margin:0;padding-left:18px;font-size:10px;line-height:1.35;color:#38445f}
+.events-panel li+li{margin-top:3px}
+.choice-bars{display:grid;gap:5px}
+.choice-bar-row{display:grid;grid-template-columns:18px 1fr 24px;gap:7px;align-items:center;font-size:10px}
+.bar-letter{font-weight:800;color:var(--navy);text-align:center}
+.bar-track{height:11px;background:#edf0f5;border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;min-width:0;border-radius:999px;background:var(--navy);transition:width .25s ease}
+.bar-a{background:#667085}.bar-b{background:#5ab3b2}.bar-c{background:#202c5e}.bar-d{background:#ec7734}
+.choice-bar-row b{font-size:11px;color:var(--navy);text-align:right}

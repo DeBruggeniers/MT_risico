@@ -1,0 +1,7 @@
+MT Risicosimulatie v17
+
+Wijzigingen:
+- Condities / gebeurtenissen worden nu per MT in de docentbediening getoond.
+- Scores zijn verwijderd uit de telefoonweergave.
+- Overzicht A/B/C/D is vervangen door een compact horizontaal staafdiagram per MT, inclusief aantallen.
+- Bestaande startpagina, fullscreen, Supabase, risicobalk, actieve MT-risico’s en scorelogica behouden.
