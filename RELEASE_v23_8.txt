@@ -1,0 +1,17 @@
+MT Risicosimulatie v23.8 - eindresultaat op telefoon
+
+Nieuw:
+- Zodra de docent na het laatste risico de sessie afrondt, wordt de finished-status via de live koppeling gepubliceerd.
+- De telefoonpagina van ieder MT schakelt vervolgens synchroon over naar het eigen eindresultaat.
+- Alleen het resultaat van het betreffende MT wordt getoond.
+- Mobiele eindpagina toont:
+  * niveau en governanceprofiel
+  * aantal passende governancekeuzes van 16
+  * vier scorepijlers
+  * A/B/C/D-verdeling
+  * profielduiding
+  * sterk punt
+  * aandachtspunt of reflectievraag
+  * gemiddelde effectscore als ondersteunende indicator
+- De beoordelingshiërarchie uit v23.7 blijft ongewijzigd.
+- Cache busting verhoogd naar v23.8.
