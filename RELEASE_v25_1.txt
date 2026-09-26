@@ -1,0 +1,7 @@
+MT Risicosimulatie v25.1
+Hotfix op v25.0.
+
+- Startknopbinding defensief gemaakt.
+- Nieuwe v25-knoppen defensief gekoppeld zodat een ontbrekend DOM-element de rest van app.js niet kan blokkeren.
+- Cache busting verhoogd naar v25.1.
+- Functionaliteit voor vroegtijdig afronden uit v25.0 behouden.
