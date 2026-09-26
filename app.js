@@ -1,9 +1,9 @@
-const STORE='mt-risk-sim-v24-0';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
+const STORE='mt-risk-sim-v25-0';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
 if(window.supabase&&window.SUPABASE_CONFIG){sb=window.supabase.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.publishableKey);}
 const labels={A:'Terugleggen bij de afzender',B:'Aanvullende informatie opvragen',C:'Opnemen als MT-risico',D:'Escaleren naar bestuur'};
 const scoreNames={grip:'Grip op risico\'s',eig:'Eigenaarschap & vertrouwen',uit:'Uitvoerbaarheid',strat:'Strategische slagkracht'};
 const riskFields=[['Bereikbaarheid','Risico_Bereikbaarheid'],['Leefbaarheid','Risico_Leefbaarheid'],['Veiligheid','Risico_Veiligheid'],['Imago','Risico_Imago'],['Kosten','Risico_Kosten']];
-async function boot(){DATA=await fetch('game-data.json?v=24.0').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=24.0').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
+async function boot(){DATA=await fetch('game-data.json?v=25.0').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=25.0').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
 if(typeof state.finished!=='boolean')state.finished=false;
 if(!Array.isArray(state.mts)||state.mts.length!==4)state=fresh();
 for(const mt of state.mts){
@@ -97,10 +97,11 @@ function governancePattern(mt){
   return g;
 }
 function performanceLevelByPreferred(g){
-  if(g.preferred>=15)return 'Zeer sterk';
-  if(g.preferred>=13)return 'Sterk';
-  if(g.preferred>=11)return 'Prima';
-  if(g.preferred>=9)return 'In ontwikkeling';
+  const n=Math.max(1,g.total||0),ratio=g.preferred/n;
+  if(ratio>=15/16)return 'Zeer sterk';
+  if(ratio>=13/16)return 'Sterk';
+  if(ratio>=11/16)return 'Prima';
+  if(ratio>=9/16)return 'In ontwikkeling';
   return 'Voor verbetering vatbaar';
 }
 function governanceStyleFromDeviations(g){
@@ -125,7 +126,7 @@ function profileFor(mt){
   const n=g.total||16;
   const avg=Math.round((v.grip+v.eigenaarschap+v.uitvoerbaarheid+v.strategisch)/4*10)/10;
 
-  if(g.preferred>=15){
+  if(g.total>0 && (g.preferred/g.total)>=15/16){
     return {
       naam:`${niveau} · Passend sturend`,
       preferredText:`${g.preferred} van ${n} passende governancekeuzes`,
@@ -176,11 +177,34 @@ function profileFor(mt){
     aandachtspunt:attention
   };
 }
+
+function finishSummary(){
+  const totals=state.mts.map(mt=>governancePattern(mt).total||0);
+  const played=totals.length?Math.min(...totals):0;
+  return {played,early:played<16,provisional:played<8};
+}
+function presentationProfile(mt){
+  const p=profileFor(mt),g=governancePattern(mt),ctx=finishSummary();
+  if(!ctx.provisional)return p;
+  return {
+    ...p,
+    naam:`Indicatief · ${p?.naam||'MT-profiel'}`,
+    beschrijving:`Dit resultaat is gebaseerd op ${g.total} gespeelde risico's. De scores en keuzeverdeling zijn bruikbaar voor reflectie, maar er zijn nog te weinig situaties gespeeld om het governanceprofiel als volwaardig patroon te duiden.`,
+    aandachtspunt:'Reflectievraag: bespreek vooral de afzonderlijke afwijkende keuzes. Trek op basis van dit beperkte aantal rondes nog geen harde conclusie over een vaste MT-reflex.'
+  };
+}
 function renderEndScreen(){
   const e=document.getElementById('endScreen'),g=document.getElementById('endGrid');if(!e||!g)return;
   e.classList.remove('hidden');
+  const ctx=finishSummary();
+  let status=document.getElementById('earlyFinishStatus');
+  if(!status){status=document.createElement('div');status.id='earlyFinishStatus';status.className='early-finish-status';e.querySelector('.end-title')?.appendChild(status);}
+  if(status){
+    status.textContent=ctx.provisional?`Indicatief resultaat · ${ctx.played} van 16 risico's gespeeld`:(ctx.early?`Vervroegd afgerond · ${ctx.played} van 16 risico's gespeeld`:'');
+    status.classList.toggle('hidden',!ctx.early);
+  }
   g.innerHTML=state.mts.map(mt=>{
-    const p=profileFor(mt),cc=choiceCounts(mt);
+    const p=presentationProfile(mt),cc=choiceCounts(mt);
     return `<article class="end-card mt-${mt.id}">
       <div class="end-card-head"><h2>${mt.name}</h2><span>${esc(p?.naam||'MT-profiel')}</span></div>
       <div class="end-scores">${[['Grip',mt.scores.grip],['Eigenaarschap',mt.scores.eig],['Uitvoerbaarheid',mt.scores.uit],['Strategisch',mt.scores.strat]].map(x=>`<div><small>${x[0]}</small><strong>${x[1]}</strong></div>`).join('')}</div>
@@ -219,10 +243,15 @@ function render(){
 }
 
 function publicEndResult(mt){
-  const p=profileFor(mt);
+  const p=presentationProfile(mt);
+  const ctx=finishSummary();
+  const g=governancePattern(mt);
   const cc=choiceCounts(mt);
   return {
     finished:true,
+    played:g.total,
+    early:g.total<16,
+    provisional:g.total<8,
     mt_id:mt.id,
     mt_name:mt.name,
     profile:p?.naam||'',
@@ -293,7 +322,30 @@ function checkConditions(mt){for(const c of DATA.conditions){if(!c.Eenmalig||!mt
 function counterVal(mt,k){return({MICRO:mt.counters.MICRO,ANALYSE:mt.counters.ANALYSE,PREM_ESCAL:mt.counters.PREM_ESCAL,ESCAL:mt.counters.ESCAL,AFHOUD:mt.counters.AFHOUD,GOOD_GOV:mt.counters.GOOD_GOV,ORG_GRIP:mt.scores.grip,ORG_EIG:mt.scores.eig,ORG_UIT:mt.scores.uit,ORG_STRAT:mt.scores.strat,INFO:mt.counters.ANALYSE})[k]??0}
 document.getElementById('fullscreen').onclick=async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen()}else{await document.exitFullscreen()}}catch(e){console.warn('Fullscreen niet beschikbaar',e)}};
 document.addEventListener('fullscreenchange',()=>{const b=document.getElementById('fullscreen');if(b)b.textContent=document.fullscreenElement?'⛶ Volledig scherm verlaten':'⛶ Volledig scherm'});
-document.getElementById('nextRound').onclick=()=>{if(!state.mts.every(x=>x.chosen))return alert('Nog niet alle vier MT’s hebben een keuze gemaakt.');undoStack.push(JSON.stringify(state));if(state.round>=16){state.finished=true;render();publishPublicState();return}for(const mt of state.mts){if(mt.next){mt.current=mt.next;let s=scen(mt.current);mt.line=+(s?.Risico_ID?.split('.')[0].slice(1)||mt.line);mt.step=+(s?.Risico_ID?.split('.')[1]||mt.step)}else{if(mt.line<4){mt.line++;mt.step=1;mt.current=`R${mt.line}.1_START`}else mt.current=null}mt.chosen=false;mt.next=null}state.round++;render()};
+
+function openFinishModal(){
+  if(!state.started)return alert('Start eerst de simulatie.');
+  const ctx=finishSummary();
+  const modal=document.getElementById('finishModal');
+  document.getElementById('finishModalText').textContent=`Je hebt ${ctx.played} van de 16 risico's gespeeld. Wil je de simulatie nu afronden en de eindresultaten berekenen?`;
+  document.getElementById('finishModalNote').textContent=ctx.provisional
+    ? `Omdat minder dan 8 risico's zijn gespeeld, worden de scores en keuzeverdeling wel getoond, maar het governanceprofiel wordt als indicatief weergegeven.`
+    : `Het niveau wordt berekend op basis van het percentage passende governancekeuzes binnen de gespeelde risico's.`;
+  modal?.classList.remove('hidden');
+}
+function closeFinishModal(){document.getElementById('finishModal')?.classList.add('hidden')}
+async function finishSessionEarly(){
+  undoStack.push(JSON.stringify(state));
+  state.finished=true;
+  state.finishedEarly=true;
+  closeFinishModal();
+  render();
+  await syncAllToSupabase();
+}
+document.getElementById('finishSession').onclick=openFinishModal;
+document.getElementById('cancelFinish').onclick=closeFinishModal;
+document.getElementById('confirmFinish').onclick=finishSessionEarly;
+document.getElementById('nextRound').onclick=()=>{if(!state.mts.every(x=>x.chosen))return alert('Nog niet alle vier MT’s hebben een keuze gemaakt.');undoStack.push(JSON.stringify(state));if(state.round>=16){state.finished=true;state.finishedEarly=false;render();publishPublicState();return}for(const mt of state.mts){if(mt.next){mt.current=mt.next;let s=scen(mt.current);mt.line=+(s?.Risico_ID?.split('.')[0].slice(1)||mt.line);mt.step=+(s?.Risico_ID?.split('.')[1]||mt.step)}else{if(mt.line<4){mt.line++;mt.step=1;mt.current=`R${mt.line}.1_START`}else mt.current=null}mt.chosen=false;mt.next=null}state.round++;render()};
 document.getElementById('startSimulation').onclick=()=>{if(state.started)return;undoStack.push(JSON.stringify(state));state.started=true;render();};
 document.getElementById('undo').onclick=()=>{if(!undoStack.length)return alert('Geen actie om ongedaan te maken.');state=JSON.parse(undoStack.pop());render()};document.getElementById('reset').onclick=()=>{if(confirm('Hele spelstatus wissen en opnieuw starten?')){localStorage.removeItem(STORE);state=fresh();undoStack=[];render()}};
 function esc(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}boot();

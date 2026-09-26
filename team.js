@@ -133,6 +133,7 @@ function renderPublishedEnd(er){
   el.innerHTML=`
     <div class="mobile-end-title">
       <div class="mobile-end-kicker">EINDRESULTAAT</div>
+      ${er.early?`<div class="mobile-early-badge">${er.provisional?'INDICATIEF RESULTAAT':'VERVROEGD AFGEROND'} · ${er.played}/16 RISICO'S</div>`:''}
       <h1>${esc(er.mt_name||('MT '+id))}</h1>
     </div>
     <article class="mobile-result-card">

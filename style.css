@@ -522,3 +522,18 @@
 .team-end-good,.team-end-att{font-size:14px;line-height:1.45;padding:11px 12px;border-radius:10px;margin-bottom:9px}
 .team-end-good{background:#eef8f1;color:#285f38}.team-end-att{background:#fff4e8;color:#7a481f}
 .team-end-average{text-align:center;font-size:12px;color:#7a8290;margin-top:14px}
+
+/* v25 - vroegtijdig afronden */
+.finish-session-btn{border-color:#e5b35b!important;background:#fff8e8!important;color:#7b4b00!important}
+.finish-session-btn:hover{background:#ffefc9!important}
+.finish-modal{position:fixed;inset:0;z-index:10000;background:rgba(10,24,55,.48);display:flex;align-items:center;justify-content:center;padding:20px}
+.finish-modal.hidden{display:none}
+.finish-modal-card{width:min(520px,100%);background:#fff;border-radius:14px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.22);color:#14275f}
+.finish-modal-card h2{margin:0 0 10px;font-size:23px}
+.finish-modal-card p{font-size:15px;line-height:1.5;color:#273142}
+.finish-modal-note{margin:14px 0 18px;padding:11px 12px;border-radius:8px;background:#fff5e8;border:1px solid #f0d2a7;color:#714516;font-size:13px;line-height:1.4}
+.finish-modal-actions{display:flex;justify-content:flex-end;gap:9px}
+.finish-modal-actions button{padding:10px 15px;border-radius:8px;font-weight:700}
+.finish-confirm{border:1px solid #14275f;background:#14275f;color:#fff}
+.early-finish-status{display:inline-block;margin-top:9px;padding:5px 10px;border-radius:999px;background:#fff2d8;border:1px solid #efc77b;color:#7a4b00;font-size:11px;font-weight:800}
+.early-finish-status.hidden{display:none}

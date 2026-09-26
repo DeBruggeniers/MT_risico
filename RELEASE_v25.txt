@@ -1,0 +1,20 @@
+MT Risicosimulatie v25.0
+
+Gebouwd op v24.0.
+
+Nieuw: vroegtijdig afronden
+- Knop 'Opdracht afronden' in de docentbediening.
+- Bevestiging toont hoeveel van de 16 risico's zijn gespeeld.
+- Na bevestiging gaat docentbediening naar het eindscherm.
+- Telefoons schakelen via de bestaande Supabase-sync naar hun eigen eindresultaat.
+- Bij vroegtijdig afronden wordt het niveau berekend op het percentage passende governancekeuzes:
+  15/16 of hoger = Zeer sterk
+  13/16 of hoger = Sterk
+  11/16 of hoger = Prima
+  9/16 of hoger = In ontwikkeling
+  lager = Voor verbetering vatbaar.
+- Vanaf 8 gespeelde risico's wordt het governanceprofiel volwaardig geduid.
+- Bij minder dan 8 risico's blijft het resultaat bruikbaar, maar wordt het profiel expliciet als indicatief gemarkeerd.
+- Docent- en telefoonscherm vermelden 'Vervroegd afgerond' of 'Indicatief resultaat' met x/16.
+- Normaal uitspelen van alle 16 risico's blijft ongewijzigd.
+- Cache busting verhoogd naar v25.0.
