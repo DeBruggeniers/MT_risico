@@ -1,9 +1,9 @@
-const STORE='mt-risk-sim-v25-1';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
+const STORE='mt-risk-sim-v25-2';let DATA,state,undoStack=[],PROFILE_DATA=null;let sb=null;
 if(window.supabase&&window.SUPABASE_CONFIG){sb=window.supabase.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.publishableKey);}
 const labels={A:'Terugleggen bij de afzender',B:'Aanvullende informatie opvragen',C:'Opnemen als MT-risico',D:'Escaleren naar bestuur'};
 const scoreNames={grip:'Grip op risico\'s',eig:'Eigenaarschap & vertrouwen',uit:'Uitvoerbaarheid',strat:'Strategische slagkracht'};
 const riskFields=[['Bereikbaarheid','Risico_Bereikbaarheid'],['Leefbaarheid','Risico_Leefbaarheid'],['Veiligheid','Risico_Veiligheid'],['Imago','Risico_Imago'],['Kosten','Risico_Kosten']];
-async function boot(){DATA=await fetch('game-data.json?v=25.1').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=25.1').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
+async function boot(){DATA=await fetch('game-data.json?v=25.2').then(r=>r.json());try{PROFILE_DATA=await fetch('mt-profiles.json?v=25.2').then(r=>r.ok?r.json():null)}catch(e){console.warn('Profieldata kon niet worden geladen',e);PROFILE_DATA=null;}state=load()||fresh();
 if(typeof state.finished!=='boolean')state.finished=false;
 if(!Array.isArray(state.mts)||state.mts.length!==4)state=fresh();
 for(const mt of state.mts){
@@ -342,10 +342,10 @@ async function finishSessionEarly(){
   render();
   await syncAllToSupabase();
 }
-document.getElementById('finishSession').onclick=openFinishModal;
-document.getElementById('cancelFinish').onclick=closeFinishModal;
-document.getElementById('confirmFinish').onclick=finishSessionEarly;
+const finishSessionBtn=document.getElementById('finishSession');if(finishSessionBtn)finishSessionBtn.onclick=openFinishModal;
+const cancelFinishBtn=document.getElementById('cancelFinish');if(cancelFinishBtn)cancelFinishBtn.onclick=closeFinishModal;
+const confirmFinishBtn=document.getElementById('confirmFinish');if(confirmFinishBtn)confirmFinishBtn.onclick=finishSessionEarly;
 document.getElementById('nextRound').onclick=()=>{if(!state.mts.every(x=>x.chosen))return alert('Nog niet alle vier MT’s hebben een keuze gemaakt.');undoStack.push(JSON.stringify(state));if(state.round>=16){state.finished=true;state.finishedEarly=false;render();publishPublicState();return}for(const mt of state.mts){if(mt.next){mt.current=mt.next;let s=scen(mt.current);mt.line=+(s?.Risico_ID?.split('.')[0].slice(1)||mt.line);mt.step=+(s?.Risico_ID?.split('.')[1]||mt.step)}else{if(mt.line<4){mt.line++;mt.step=1;mt.current=`R${mt.line}.1_START`}else mt.current=null}mt.chosen=false;mt.next=null}state.round++;render()};
-document.getElementById('startSimulation').onclick=()=>{if(state.started)return;undoStack.push(JSON.stringify(state));state.started=true;render();};
+const startSimulationBtn=document.getElementById('startSimulation');if(startSimulationBtn)startSimulationBtn.onclick=()=>{if(state.started)return;undoStack.push(JSON.stringify(state));state.started=true;render();};
 document.getElementById('undo').onclick=()=>{if(!undoStack.length)return alert('Geen actie om ongedaan te maken.');state=JSON.parse(undoStack.pop());render()};document.getElementById('reset').onclick=()=>{if(confirm('Hele spelstatus wissen en opnieuw starten?')){localStorage.removeItem(STORE);state=fresh();undoStack=[];render()}};
 function esc(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}boot();

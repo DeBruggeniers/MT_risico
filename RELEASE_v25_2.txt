@@ -1,0 +1,10 @@
+MT Risicosimulatie v25.2
+
+Definitieve fix startknop:
+- Oorzaak gevonden: het nieuwe dialoogvenster voor 'Opdracht afronden' stond in index.html ná app.js.
+- app.js probeerde daardoor knoppen uit dit dialoogvenster te koppelen voordat ze bestonden.
+- Dit veroorzaakte een JavaScript-fout en stopte de uitvoering vóór de koppeling van 'Start simulatie'.
+- Het dialoogvenster staat nu vóór app.js in de DOM.
+- Alle nieuwe knopkoppelingen zijn daarnaast defensief gemaakt.
+- Functionaliteit van v24.0 en vroegtijdig afronden uit v25 blijft behouden.
+- Cache busting verhoogd naar v25.2.
